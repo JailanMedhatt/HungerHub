@@ -51,7 +51,18 @@
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="@id/name"
         app:layout_constraintTop_toBottomOf="@id/name" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invalid Email Address!"
+        android:id="@+id/emailError"
+        android:visibility="invisible"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#FF0303"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintStart_toStartOf="@id/email"
+        />
     <EditText
         android:id="@+id/pass"
         android:layout_width="match_parent"
@@ -70,8 +81,30 @@
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email" />
-
-    <EditText
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Passwords do not match !"
+        android:id="@+id/matchPassError1"
+        android:visibility="invisible"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#FF0303"
+        app:layout_constraintTop_toBottomOf="@id/pass"
+        app:layout_constraintStart_toStartOf="@id/pass"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/matchPassError2"
+        android:visibility="invisible"
+        android:text="Passwords do not match !"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#FF0303"
+        app:layout_constraintTop_toBottomOf="@id/conPass"
+        app:layout_constraintStart_toStartOf="@id/conPass"
+/>    <EditText
         android:id="@+id/conPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

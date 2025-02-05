@@ -2,57 +2,40 @@ package com.example.hungerhub;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RegisterFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class RegisterFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    EditText name;
+    EditText email;
+    EditText pass;
+    EditText conPass;
+    Button registerBtn;
+    TextView goToLoginText;
+    TextView emailError;
+    TextView passErrorMatch1;
+    TextView passErrorMatch2;
 
     public RegisterFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RegisterFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RegisterFragment newInstance(String param1, String param2) {
-        RegisterFragment fragment = new RegisterFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -60,5 +43,65 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_register, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        name= view.findViewById(R.id.name);
+        email= view.findViewById(R.id.email);
+        pass= view.findViewById(R.id.pass);
+        conPass= view.findViewById(R.id.conPass);
+        registerBtn= view.findViewById(R.id.registerBtn);
+        goToLoginText= view.findViewById(R.id.goToSignIn);
+        emailError = view.findViewById(R.id.emailError);
+        passErrorMatch1 = view.findViewById(R.id.matchPassError1);
+        passErrorMatch2 = view.findViewById(R.id.matchPassError2);
+        registerBtn.setOnClickListener(v->{
+            hideAllErrors();
+            if(!isAnyFieldEmpty()){
+            checkFieldsValidity();}
+        });
+        goToLoginText.setOnClickListener(v->{
+            Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment);
+        });
+    }
+    boolean isAnyFieldEmpty(){
+        boolean anyEmptyField= false;
+        if(TextUtils.isEmpty(email.getText().toString().trim())){
+            email.setError("Email required");
+            anyEmptyField=true;
+        }
+        if(TextUtils.isEmpty(pass.getText().toString().trim())){
+            pass.setError("Password required");
+            anyEmptyField=true;
+        }
+        if(TextUtils.isEmpty(name.getText().toString().trim())){
+            name.setError("Email required");
+            anyEmptyField=true;
+        }
+        if(TextUtils.isEmpty(conPass.getText().toString().trim())){
+            conPass.setError("Password required");
+            anyEmptyField=true;
+        }
+        return anyEmptyField;
+    }
+     boolean checkFieldsValidity(){
+        boolean valid= true;
+        if(!pass.getText().toString().equals(conPass.getText().toString())){
+            passErrorMatch1.setVisibility(View.VISIBLE);
+            passErrorMatch2.setVisibility(View.VISIBLE);
+            valid=false;
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches()){
+            emailError.setVisibility(View.VISIBLE);
+            valid=false;
+        }
+        return  valid;
+    }
+    void hideAllErrors(){
+        passErrorMatch1.setVisibility(View.INVISIBLE);
+        passErrorMatch2.setVisibility(View.INVISIBLE);
+        emailError.setVisibility(View.INVISIBLE);
     }
 }
