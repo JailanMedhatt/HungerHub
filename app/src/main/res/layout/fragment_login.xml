@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".LoginFragment"
+    tools:context=".Authentication.LoginFragment"
     android:background="@color/offWhite"
     >
 
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
 
-
+             android:id="@+id/google"
             android:src="@drawable/googlee"
             android:backgroundTint="@color/offWhite"
 

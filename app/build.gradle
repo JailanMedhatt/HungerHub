@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -40,4 +41,7 @@ dependencies {
     androidTestImplementation libs.espresso.core
     implementation "androidx.navigation:navigation-fragment:2.5.3"
     implementation "androidx.navigation:navigation-ui:2.5.3"
+    implementation platform('com.google.firebase:firebase-bom:33.8.0')
+    implementation "com.google.firebase:firebase-auth:22.3.1"
+    implementation "com.google.android.gms:play-services-auth:21.3.0"
 }
