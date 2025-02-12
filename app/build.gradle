@@ -44,4 +44,24 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:33.8.0')
     implementation "com.google.firebase:firebase-auth:22.3.1"
     implementation "com.google.android.gms:play-services-auth:21.3.0"
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.5'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+    //video
+    implementation 'com.google.android.exoplayer:exoplayer:2.19.0'
+    //room
+    implementation ("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    //firestore
+    implementation("com.google.firebase:firebase-firestore")
+    //room rx
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation("io.reactivex.rxjava3:rxjava:3.1.6")
+    implementation "androidx.room:room-rxjava3:2.3.0-alpha02"
 }

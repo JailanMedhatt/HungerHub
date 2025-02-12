@@ -35,9 +35,10 @@ public class LoginFragment extends Fragment implements OnResponseHandler {
     EditText pass;
     Button loginBtn;
     TextView goToSignUpText;
-    FirebaseAuth firebaseAuth;
+
     ImageView google;
     private static final int RC_SIGN_IN = 100;
+    FirebaseAuth firebaseAuth;
     private GoogleSignInClient googleSignInClient;
     FireBaseAuthHandler fireBaseAuthHandler;
     SharedPref sharedPref;
@@ -131,6 +132,7 @@ public class LoginFragment extends Fragment implements OnResponseHandler {
                     if (task.isSuccessful()) {
                         // Sign-in successful
                         sharedPref.setLogged(true);
+
                         Intent intent = new Intent(getActivity(), MainTabsActivity.class);
                         startActivity(intent);
                         Toast.makeText(getActivity(),"logged in", Toast.LENGTH_LONG).show();
@@ -149,7 +151,9 @@ public class LoginFragment extends Fragment implements OnResponseHandler {
     alertDialouge.showAlert();
     }
     @Override
-    public void onSuccessResponse(View view) {
+    public void onSuccessResponse(View view,String  uid) {
+        sharedPref.setUSERID(uid);
+
 
      sharedPref.setLogged(true);
      Intent intent = new Intent(getActivity(), MainTabsActivity.class);

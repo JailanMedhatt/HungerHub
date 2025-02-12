@@ -67,12 +67,7 @@ public class RegisterFragment extends Fragment implements OnResponseHandler {
         sharedPref=SharedPref.getInstance(getActivity());
 //        googleSignInClient.signOut();
 //        firebaseAuth.signOut();
-            if(sharedPref.isLogged()){
-                Toast.makeText(getActivity(),"you are logged in",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(getActivity(),"you are  not logged in",Toast.LENGTH_SHORT).show();
-            }
+
     }
 
     @Override
@@ -214,7 +209,7 @@ private void firebaseAuthWithGoogle(String idToken) {
     }
 
     @Override
-    public void onSuccessResponse(View view) {
+    public void onSuccessResponse(View view,String uid) {
         sharedPref.setLogged(true);
         Intent intent = new Intent(getActivity(), MainTabsActivity.class);
         startActivity(intent);

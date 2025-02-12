@@ -27,9 +27,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nav_host_fragment"
         app:menu="@menu/bottom_nav_menu"
-        app:itemTextColor="@color/offWhite"
+        app:itemTextColor="@color/white"
         app:itemRippleColor="@color/primary"
         app:itemActiveIndicatorStyle="@color/primary"
-        app:itemIconTint="@color/offWhite"
+        app:itemIconTint="@color/white"
         android:background="@color/primary"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/favFragment"
-        android:name="com.example.hungerhub.homeTabs.FavFragment"
+        android:name="com.example.hungerhub.homeTabs.fav.view.FavFragment"
         android:label="fragment_fav"
         tools:layout="@layout/fragment_fav" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.hungerhub.homeTabs.SearchFragment"
+        android:name="com.example.hungerhub.homeTabs.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.hungerhub.homeTabs.HomeFragment"
+        android:name="com.example.hungerhub.homeTabs.home.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -46,10 +46,24 @@
         <action
             android:id="@+id/action_homeFragment_to_planFragment"
             app:destination="@id/planFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/planFragment"
-        android:name="com.example.hungerhub.homeTabs.PlanFragment"
+        android:name="com.example.hungerhub.homeTabs.plan.PlanFragment"
         android:label="fragment_plan"
         tools:layout="@layout/fragment_plan" />
+    <fragment
+        android:id="@+id/detailedMealFragment"
+        android:name="com.example.hungerhub.homeTabs.selectedItem.view.DetailedMealFragment"
+        android:label="fragment_detailed_meal"
+        tools:layout="@layout/fragment_detailed_meal" >
+        <argument
+            android:name="Meal"
+            app:argType="com.example.hungerhub.homeTabs.MealModel" />
+    </fragment>
 </navigation>

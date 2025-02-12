@@ -1,4 +1,4 @@
-package com.example.hungerhub.homeTabs;
+package com.example.hungerhub.homeTabs.search;
 
 import android.os.Bundle;
 

@@ -34,7 +34,6 @@ public class MainTabsActivity extends AppCompatActivity {
 
          NavController navController= navHostFragment.getNavController();
 
-   // NavigationUI.setupWithNavController(bottomNavigationView,navController);
     bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
