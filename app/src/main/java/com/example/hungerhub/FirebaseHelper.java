@@ -2,17 +2,14 @@ package com.example.hungerhub;
 
 import android.util.Log;
 
-import com.example.hungerhub.homeTabs.MealModel;
-import com.example.hungerhub.homeTabs.fav.presenter.PresenterMethodsCaller;
+import com.example.hungerhub.homeTabs.model.MealModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class FirebaseHelper {

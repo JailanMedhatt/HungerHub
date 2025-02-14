@@ -2,7 +2,7 @@ package com.example.hungerhub.homeTabs.search.presenter;
 
 import android.text.TextUtils;
 
-import com.example.hungerhub.homeTabs.search.SearchRepo;
+import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaModel;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryModel;
 import com.example.hungerhub.homeTabs.search.model.ingredientModels.IngredientModel;
@@ -16,7 +16,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SearchPresenter {
-    SearchRepo repo;
+    Repo repo;
     SearchResponseHandler iview;
     List<CategoryModel> backupCategories= new ArrayList<>();
     List<IngredientModel> backupIngredients= new ArrayList<>();
@@ -25,7 +25,7 @@ public class SearchPresenter {
     boolean isCategorySelcted=false;
     boolean isCountrySelected=false;
 
-    public SearchPresenter(SearchRepo repo, SearchResponseHandler iview) {
+    public SearchPresenter(Repo repo, SearchResponseHandler iview) {
         this.repo = repo;
         this.iview = iview;
     }

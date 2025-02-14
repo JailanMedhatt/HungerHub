@@ -9,7 +9,7 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 
-import com.example.hungerhub.homeTabs.MealModel;
+import com.example.hungerhub.homeTabs.model.MealModel;
 
 @Database(entities = MealModel.class,version = 4)
 public abstract class AppDb extends RoomDatabase {

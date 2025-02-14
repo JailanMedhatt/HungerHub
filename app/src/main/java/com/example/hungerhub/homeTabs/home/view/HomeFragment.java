@@ -19,13 +19,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hungerhub.R;
-import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.homeTabs.LocalDataSource;
-import com.example.hungerhub.homeTabs.MealModel;
-import com.example.hungerhub.homeTabs.Repo;
-import com.example.hungerhub.homeTabs.fav.presenter.Presenter;
-import com.example.hungerhub.homeTabs.home.network.RemoteRandomMealDataSource;
+import com.example.hungerhub.homeTabs.model.MealModel;
+
 import com.example.hungerhub.homeTabs.home.presenter.HomePresenter;
+import com.example.hungerhub.homeTabs.network.RemoteDataSource;
+import com.example.hungerhub.Repo;
 
 
 public class HomeFragment extends Fragment implements IhomeView {
@@ -43,7 +42,8 @@ public class HomeFragment extends Fragment implements IhomeView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        homePresenter= new HomePresenter(new Repo(LocalDataSource.getInstance(getActivity()),true,getActivity()),this);
+        homePresenter= new HomePresenter(new Repo(RemoteDataSource.getInstance(),
+                LocalDataSource.getInstance(getActivity()),true),this);
 //        SharedPref sharedPref= SharedPref.getInstance(getActivity());
 //        sharedPref.setDataLoaded(false);
     }
@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment implements IhomeView {
 //        if(savedInstanceState!=null){
 //            mealModel= (MealModel) savedInstanceState.getSerializable("meal");
 //        }
-        homePresenter.getDailyMeal(RemoteRandomMealDataSource.getInstance());
+        homePresenter.getDailyMeal();
        mealPhoto= view.findViewById(R.id.mealPhoto);
        title= view.findViewById(R.id.title);
        card= view.findViewById(R.id.card);

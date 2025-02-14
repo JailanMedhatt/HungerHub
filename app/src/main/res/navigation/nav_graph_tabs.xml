@@ -62,20 +62,23 @@
         tools:layout="@layout/fragment_plan" />
     <fragment
         android:id="@+id/detailedMealFragment"
-        android:name="com.example.hungerhub.homeTabs.selectedItem.view.DetailedMealFragment"
+        android:name="com.example.hungerhub.homeTabs.detailedItem.view.DetailedMealFragment"
         android:label="fragment_detailed_meal"
         tools:layout="@layout/fragment_detailed_meal" >
         <argument
             android:name="Meal"
-            app:argType="com.example.hungerhub.homeTabs.MealModel" />
+            app:argType="com.example.hungerhub.homeTabs.model.MealModel" />
     </fragment>
     <fragment
         android:id="@+id/filteredMealsFragment"
-        android:name="com.example.hungerhub.homeTabs.search.chosenMeals.view.FilteredMealsFragment"
+        android:name="com.example.hungerhub.homeTabs.search.FilteredMeals.view.FilteredMealsFragment"
         android:label="fragment_filtered_meals"
         tools:layout="@layout/fragment_filtered_meals" >
         <argument
             android:name="FilterObj"
             app:argType="com.example.hungerhub.homeTabs.search.FilterObj" />
+        <action
+            android:id="@+id/action_filteredMealsFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment" />
     </fragment>
 </navigation>

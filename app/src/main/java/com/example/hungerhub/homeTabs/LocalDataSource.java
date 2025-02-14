@@ -2,14 +2,11 @@ package com.example.hungerhub.homeTabs;
 
 import android.content.Context;
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-
 import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.homeTabs.db.AppDb;
 import com.example.hungerhub.homeTabs.db.MealDao;
+import com.example.hungerhub.homeTabs.model.MealModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;

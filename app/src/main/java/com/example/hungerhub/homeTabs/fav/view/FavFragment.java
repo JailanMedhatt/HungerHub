@@ -13,10 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hungerhub.R;
+import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.LocalDataSource;
-import com.example.hungerhub.homeTabs.MealModel;
-import com.example.hungerhub.homeTabs.Repo;
+import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.fav.presenter.Presenter;
+import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class FavFragment extends Fragment implements FavIview {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter= new Presenter( new Repo(LocalDataSource.getInstance(getActivity()),false,getActivity()),this);
+        presenter= new Presenter( new Repo(RemoteDataSource.getInstance(),LocalDataSource.getInstance(getActivity()),true),this);
 
     }
 

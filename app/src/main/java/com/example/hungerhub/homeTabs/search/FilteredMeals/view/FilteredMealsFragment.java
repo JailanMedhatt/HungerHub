@@ -1,10 +1,11 @@
-package com.example.hungerhub.homeTabs.search.chosenMeals.view;
+package com.example.hungerhub.homeTabs.search.FilteredMeals.view;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,16 +18,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.hungerhub.R;
-import com.example.hungerhub.homeTabs.MealModel;
-import com.example.hungerhub.homeTabs.Repo;
-import com.example.hungerhub.homeTabs.fav.presenter.Presenter;
-import com.example.hungerhub.homeTabs.fav.view.MyAdapter;
+import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.search.FilterObj;
-import com.example.hungerhub.homeTabs.search.SearchRepo;
-import com.example.hungerhub.homeTabs.search.chosenMeals.ChosenMealsPresenter;
-import com.example.hungerhub.homeTabs.search.chosenMeals.FilterMealsiview;
-import com.example.hungerhub.homeTabs.search.network.RemoteSearchlDataSource;
-import com.example.hungerhub.homeTabs.selectedItem.view.DetailedMealFragmentArgs;
+import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.search.FilteredMeals.FilteredMealsPresenter;
+import com.example.hungerhub.homeTabs.search.FilteredMeals.FilterMealsiview;
+import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 
 import java.util.List;
 
@@ -38,7 +36,8 @@ public class FilteredMealsFragment extends Fragment implements FilterMealsiview 
     MealsAdapter adapter;
     TextView pageTitle;
     FilterObj filter;
-    ChosenMealsPresenter presenter;
+    View view;
+    FilteredMealsPresenter presenter;
     public FilteredMealsFragment() {
         // Required empty public constructor
     }
@@ -47,7 +46,8 @@ public class FilteredMealsFragment extends Fragment implements FilterMealsiview 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
      filter = FilteredMealsFragmentArgs.fromBundle(getArguments()).getFilterObj();
-     presenter=new ChosenMealsPresenter(new SearchRepo(RemoteSearchlDataSource.getInstance()),this);
+     presenter=new FilteredMealsPresenter(new Repo(RemoteDataSource.getInstance(),
+             LocalDataSource.getInstance(getActivity()),true),this);
 
     }
 
@@ -61,6 +61,7 @@ public class FilteredMealsFragment extends Fragment implements FilterMealsiview 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.view=view;
         pageTitle=view.findViewById(R.id.titleFilter);
         presenter.getAllMeals(filter);
         rc=view.findViewById(R.id.rv);
@@ -98,7 +99,7 @@ public class FilteredMealsFragment extends Fragment implements FilterMealsiview 
 
     @Override
     public void onMealClicked(MealModel mealModel) {
-
+        Navigation.findNavController(view).navigate(FilteredMealsFragmentDirections.actionFilteredMealsFragmentToDetailedMealFragment(mealModel));
     }
 
     @Override

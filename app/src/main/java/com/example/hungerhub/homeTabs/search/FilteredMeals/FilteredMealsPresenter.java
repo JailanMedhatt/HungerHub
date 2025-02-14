@@ -1,26 +1,23 @@
-package com.example.hungerhub.homeTabs.search.chosenMeals;
+package com.example.hungerhub.homeTabs.search.FilteredMeals;
 
 import android.text.TextUtils;
-import com.example.hungerhub.homeTabs.MealModel;
+import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.search.FilterObj;
-import com.example.hungerhub.homeTabs.search.SearchRepo;
+import com.example.hungerhub.Repo;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-
-public class ChosenMealsPresenter {
-    SearchRepo repo;
+public class FilteredMealsPresenter {
+    Repo repo;
     FilterMealsiview iview;
 
-    public ChosenMealsPresenter(SearchRepo repo, FilterMealsiview iview) {
+    public FilteredMealsPresenter(Repo repo, FilterMealsiview iview) {
         this.repo = repo;
         this.iview = iview;
     }
 
     List<MealModel> mealsBackUp;
-
     public  void getAllMealsByCat(String cat){
         repo.getMealsByCat(cat).subscribeOn(Schedulers.io()).map(
                 i->i.meals

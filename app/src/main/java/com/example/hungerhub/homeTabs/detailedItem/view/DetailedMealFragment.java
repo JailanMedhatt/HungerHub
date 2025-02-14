@@ -1,4 +1,4 @@
-package com.example.hungerhub.homeTabs.selectedItem.view;
+package com.example.hungerhub.homeTabs.detailedItem.view;
 
 import android.os.Bundle;
 
@@ -19,15 +19,14 @@ import android.widget.Toast;
 
 import com.example.hungerhub.R;
 import com.example.hungerhub.homeTabs.LocalDataSource;
-import com.example.hungerhub.homeTabs.MealModel;
-import com.example.hungerhub.homeTabs.MessageReciever;
-import com.example.hungerhub.homeTabs.Repo;
-import com.example.hungerhub.homeTabs.selectedItem.presenter.ItemDetailsPresenter;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.hungerhub.homeTabs.model.MealModel;
+import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.network.RemoteDataSource;
+import com.example.hungerhub.homeTabs.detailedItem.presenter.ItemDetailsPresenter;
 
 import java.util.List;
 
-public class DetailedMealFragment extends Fragment implements MessageReciever {
+public class DetailedMealFragment extends Fragment implements DetailedMeal_iView {
     WebView webView;
     TextView title;
     TextView category;
@@ -49,7 +48,8 @@ public class DetailedMealFragment extends Fragment implements MessageReciever {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter=new ItemDetailsPresenter(new Repo(LocalDataSource.getInstance(getActivity()),true,getActivity()),this);
+        presenter=new ItemDetailsPresenter(this,
+                new Repo(RemoteDataSource.getInstance(),LocalDataSource.getInstance(getActivity()),true));
 
     }
 
@@ -69,22 +69,14 @@ public class DetailedMealFragment extends Fragment implements MessageReciever {
         addToFavBtn= view.findViewById(R.id.addToFav);
         area= view.findViewById(R.id.area);
         MealModel mealModel = DetailedMealFragmentArgs.fromBundle(getArguments()).getMeal();
-        instructions.setText(mealModel.getStrInstructions());
-        area.setText(mealModel.getStrArea());
-        title.setText(mealModel.getTitle());
+        presenter.getItemDetails(mealModel.getIdMeal());
         category=view.findViewById(R.id.category);
-        category.setText(mealModel.getStrCategory());
-        loadVideo(presenter.getVideoId(mealModel.getStrYoutube()));
-        List<String> ingredients= presenter.getIngredientsList(mealModel);
+
         recyclerView = view.findViewById(R.id.rv);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new MyRecyclerAdapter(getActivity(),ingredients);
-        recyclerView.setAdapter(adapter);
-        addToFavBtn.setOnClickListener(v->{
-            presenter.addMealToFav(mealModel,getActivity());
-        });
+
 
 
     }
@@ -98,6 +90,21 @@ public class DetailedMealFragment extends Fragment implements MessageReciever {
     @Override
     public void onMessageReceived(String msg) {
         Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setMeal(MealModel meal) {
+        instructions.setText(meal.getStrInstructions());
+        loadVideo(presenter.getVideoId(meal.getStrYoutube()));
+        area.setText(meal.getStrArea());
+        title.setText(meal.getTitle());
+        category.setText(meal.getStrCategory());
+        List<String> ingredients= presenter.getIngredientsList(meal);
+        adapter = new MyRecyclerAdapter(getActivity(),ingredients);
+        recyclerView.setAdapter(adapter);
+        addToFavBtn.setOnClickListener(v->{
+            presenter.addMealToFav(meal,getActivity());
+        });
     }
 }
 

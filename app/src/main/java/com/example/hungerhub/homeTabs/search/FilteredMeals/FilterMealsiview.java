@@ -1,6 +1,6 @@
-package com.example.hungerhub.homeTabs.search.chosenMeals;
+package com.example.hungerhub.homeTabs.search.FilteredMeals;
 
-import com.example.hungerhub.homeTabs.MealModel;
+import com.example.hungerhub.homeTabs.model.MealModel;
 
 import java.util.List;
 

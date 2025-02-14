@@ -1,4 +1,4 @@
-package com.example.hungerhub.homeTabs;
+package com.example.hungerhub.homeTabs.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
 @Entity(tableName = "meal_table")
 public class MealModel implements Serializable {

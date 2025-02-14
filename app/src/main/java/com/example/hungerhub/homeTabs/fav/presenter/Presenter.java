@@ -1,12 +1,7 @@
 package com.example.hungerhub.homeTabs.fav.presenter;
 
-import android.content.Context;
-
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-
-import com.example.hungerhub.homeTabs.MealModel;
-import com.example.hungerhub.homeTabs.Repo;
+import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.fav.view.FavIview;
 
 import java.util.List;
@@ -17,7 +12,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class Presenter implements PresenterMethodsCaller{
     Repo repo;
     FavIview iview;
-    public Presenter(Repo repo,FavIview iview){
+    public Presenter(Repo repo, FavIview iview){
         this.repo=repo;
         this.iview=iview;
     }

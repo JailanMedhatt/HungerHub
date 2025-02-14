@@ -15,13 +15,13 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import com.example.hungerhub.R;
-import com.example.hungerhub.homeTabs.home.view.HomeFragmentDirections;
+import com.example.hungerhub.homeTabs.LocalDataSource;
 import com.example.hungerhub.homeTabs.search.FilterObj;
-import com.example.hungerhub.homeTabs.search.SearchRepo;
+import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaModel;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryModel;
 import com.example.hungerhub.homeTabs.search.model.ingredientModels.IngredientModel;
-import com.example.hungerhub.homeTabs.search.network.RemoteSearchlDataSource;
+import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 import com.example.hungerhub.homeTabs.search.presenter.SearchPresenter;
 import com.example.hungerhub.homeTabs.search.view.recyclyerAdapters.AreaRecyclerAdapter;
 import com.example.hungerhub.homeTabs.search.view.recyclyerAdapters.CategoryRecyclerAdapter;
@@ -51,7 +51,7 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter= new SearchPresenter(new SearchRepo(RemoteSearchlDataSource.getInstance()),this);
+        presenter= new SearchPresenter(new Repo(RemoteDataSource.getInstance(), LocalDataSource.getInstance(getActivity()),true),this);
 
     }
 

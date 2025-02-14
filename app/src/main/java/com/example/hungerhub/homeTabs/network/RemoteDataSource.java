@@ -1,6 +1,6 @@
-package com.example.hungerhub.homeTabs.search.network;
+package com.example.hungerhub.homeTabs.network;
 
-import com.example.hungerhub.homeTabs.home.model.MealResponse;
+import com.example.hungerhub.homeTabs.model.MealResponse;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaResponse;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryResponse;
 import com.example.hungerhub.homeTabs.search.model.ingredientModels.IngredientResponse;
@@ -10,18 +10,18 @@ import io.reactivex.rxjava3.core.Single;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RemoteSearchlDataSource {
+public class RemoteDataSource {
     Retrofit retrofit;
-    static RemoteSearchlDataSource instance;
+    static RemoteDataSource instance;
     SearchRetrofitHandler retrofitHandler;
     String baseUrl="https://www.themealdb.com/api/json/v1/1/";
-  private RemoteSearchlDataSource(){
+  private RemoteDataSource(){
         retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava3CallAdapterFactory.create()).baseUrl(baseUrl).build();
         retrofitHandler= retrofit.create(SearchRetrofitHandler.class);
     }
-    public static RemoteSearchlDataSource getInstance(){
+    public static RemoteDataSource getInstance(){
       if(instance==null){
-          instance= new RemoteSearchlDataSource();
+          instance= new RemoteDataSource();
       }
       return  instance;
     }
@@ -42,6 +42,12 @@ public class RemoteSearchlDataSource {
     }
     public Single<MealResponse>getMealsByArea(String area){
         return retrofitHandler.getMealsByArea(area);
+    }
+    public Single<MealResponse>getMealsById(String id){
+        return retrofitHandler.getMealDetailsByid(id);
+    }
+    public Single<MealResponse> getDailyMeal(){
+        return   retrofitHandler.getDailyMeal();
     }
 
 }

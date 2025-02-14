@@ -1,6 +1,6 @@
-package com.example.hungerhub.homeTabs.search.network;
+package com.example.hungerhub.homeTabs.network;
 
-import com.example.hungerhub.homeTabs.home.model.MealResponse;
+import com.example.hungerhub.homeTabs.model.MealResponse;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaResponse;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryResponse;
 import com.example.hungerhub.homeTabs.search.model.ingredientModels.IngredientResponse;
@@ -22,4 +22,8 @@ public interface SearchRetrofitHandler {
     public Single<MealResponse> getMealsByIngredient(@Query("i") String ingredient);
     @GET("filter.php")
     public Single<MealResponse> getMealsByArea(@Query("a") String area);
+    @GET("lookup.php")
+    public Single<MealResponse> getMealDetailsByid(@Query("i" ) String id);
+   @GET("random.php")
+   public Single<MealResponse> getDailyMeal();
 }

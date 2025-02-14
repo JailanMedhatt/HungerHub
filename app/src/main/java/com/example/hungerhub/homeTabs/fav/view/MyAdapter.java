@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hungerhub.R;
-import com.example.hungerhub.homeTabs.MealModel;
+import com.example.hungerhub.homeTabs.model.MealModel;
 
 import java.util.List;
 
