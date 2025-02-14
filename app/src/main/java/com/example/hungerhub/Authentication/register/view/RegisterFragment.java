@@ -1,4 +1,4 @@
-package com.example.hungerhub.Authentication;
+package com.example.hungerhub.Authentication.register.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,10 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hungerhub.Authentication.AlertDialouge;
+import com.example.hungerhub.Authentication.FireBaseAuthHandler;
+import com.example.hungerhub.Authentication.register.presenter.RegisterPresenter;
 import com.example.hungerhub.R;
 import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.Authentication.interfaces.OnResponseHandler;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
+import com.example.hungerhub.homeTabs.fav.presenter.Presenter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,7 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class RegisterFragment extends Fragment implements OnResponseHandler {
+public class RegisterFragment extends Fragment implements OnResponseHandler,OnErrorHandling {
     EditText name;
     EditText email;
     EditText pass;
@@ -40,6 +44,7 @@ public class RegisterFragment extends Fragment implements OnResponseHandler {
     EditText conPass;
     Button registerBtn;
     TextView goToLoginText;
+    TextView nameEroor;
     TextView emailError;
     TextView passErrorMatch1;
     TextView passErrorMatch2;
@@ -47,8 +52,8 @@ public class RegisterFragment extends Fragment implements OnResponseHandler {
     private static final int RC_SIGN_IN = 100;
     private GoogleSignInClient googleSignInClient;
     SharedPref sharedPref;
-    FireBaseAuthHandler fireBaseAuthHandler;
 
+    RegisterPresenter registerPresenter;
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -56,7 +61,7 @@ public class RegisterFragment extends Fragment implements OnResponseHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      fireBaseAuthHandler=FireBaseAuthHandler.getInstance();
+        registerPresenter=new RegisterPresenter(this);
         firebaseAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)) // Get Web Client ID from Firebase
@@ -90,6 +95,7 @@ public class RegisterFragment extends Fragment implements OnResponseHandler {
         goToLoginText= view.findViewById(R.id.goToSignIn);
         emailError = view.findViewById(R.id.emailError);
         passErrorMatch1 = view.findViewById(R.id.matchPassError1);
+        nameEroor=view.findViewById(R.id.nameError);
         passErrorMatch2 = view.findViewById(R.id.matchPassError2);
         google=view.findViewById(R.id.google);
         email.setText("j@yahoo.com");
@@ -98,12 +104,12 @@ public class RegisterFragment extends Fragment implements OnResponseHandler {
                 conPass.setText("123456");
         registerBtn.setOnClickListener(v->{
             hideAllErrors();
-            if(!isAnyFieldEmpty()){
-                if(
-            checkFieldsValidity()){
-                    fireBaseAuthHandler.signUp(email.getText().toString().trim(),pass.getText().toString().trim(),this,view);
-                }
-            }
+           registerPresenter.register(
+                   pass.getText().toString().trim(),
+                   conPass.getText().toString().trim(),
+                   email.getText().toString().trim(),
+                   name.getText().toString().trim(),this
+           );
         });
         goToLoginText.setOnClickListener(v->{
             Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment);
@@ -113,47 +119,11 @@ public class RegisterFragment extends Fragment implements OnResponseHandler {
             signInWithGoogle();
         });
     }
-    boolean isAnyFieldEmpty(){
-        boolean anyEmptyField= false;
-        if(TextUtils.isEmpty(email.getText().toString().trim())){
-            email.setError("Email required");
-            anyEmptyField=true;
-        }
-        if(TextUtils.isEmpty(pass.getText().toString().trim())){
-            pass.setError("Password required");
-            anyEmptyField=true;
-        }
-        if(TextUtils.isEmpty(name.getText().toString().trim())){
-            name.setError("Email required");
-            anyEmptyField=true;
-        }
-        if(TextUtils.isEmpty(conPass.getText().toString().trim())){
-            conPass.setError("Password required");
-            anyEmptyField=true;
-        }
-        return anyEmptyField;
-    }
-     boolean checkFieldsValidity(){
-        boolean valid= true;
-        if(!pass.getText().toString().equals(conPass.getText().toString())){
-            passErrorMatch1.setVisibility(View.VISIBLE);
-            passErrorMatch2.setVisibility(View.VISIBLE);
-            valid=false;
-        }
-        if(!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches()){
-            emailError.setVisibility(View.VISIBLE);
-            valid=false;
-        }
-        if(pass.getText().toString().trim().length()<6){
-            passErrorMatch1.setText("Password must be not less than 6 charcters");
-            passErrorMatch1.setVisibility(View.VISIBLE);
-            valid= false;
 
-        }
-        return  valid;
-    }
+
     void hideAllErrors(){
         passErrorMatch1.setVisibility(View.INVISIBLE);
+       nameEroor.setVisibility(View.INVISIBLE);
         passErrorMatch2.setVisibility(View.INVISIBLE);
         emailError.setVisibility(View.INVISIBLE);
     }
@@ -209,10 +179,43 @@ private void firebaseAuthWithGoogle(String idToken) {
     }
 
     @Override
-    public void onSuccessResponse(View view,String uid) {
+    public void onSuccessResponse(String uid) {
         sharedPref.setLogged(true);
         Intent intent = new Intent(getActivity(), MainTabsActivity.class);
         startActivity(intent);
         Toast.makeText(getActivity(),"logged in", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNameError() {
+        nameEroor.setVisibility(View.VISIBLE);
+        nameEroor.setText("Name Required");
+    }
+
+    @Override
+    public void onEmailError(String error) {
+        emailError.setVisibility(View.VISIBLE);
+        emailError.setText(error);
+    }
+
+    @Override
+    public void onPassError(String msg) {
+        passErrorMatch1.setVisibility(View.VISIBLE);
+        passErrorMatch1.setText(msg);
+    }
+
+    @Override
+    public void onMatchingPassError() {
+        passErrorMatch1.setVisibility(View.VISIBLE);
+        passErrorMatch2.setVisibility(View.VISIBLE);
+        passErrorMatch1.setText("Password do not match");
+
+    }
+
+    @Override
+    public void onCinPassError() {
+        passErrorMatch2.setVisibility(View.VISIBLE);
+        nameEroor.setText("Confirm Password Required");
+
     }
 }

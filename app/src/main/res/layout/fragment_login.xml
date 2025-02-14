@@ -37,6 +37,18 @@
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo" />
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Passwords do not match !"-->
+<!--        android:id="@+id/matchPassError1"-->
+<!--        android:visibility="invisible"-->
+<!--        android:layout_marginStart="32dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:textColor="#FF0303"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/pass"-->
+<!--        app:layout_constraintStart_toStartOf="@id/pass"-->
+<!--        />-->
 
     <EditText
         android:id="@+id/pass"

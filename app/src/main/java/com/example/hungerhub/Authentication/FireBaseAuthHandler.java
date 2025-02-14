@@ -29,7 +29,7 @@ public class FireBaseAuthHandler {
         firebaseAuth.signInWithEmailAndPassword(email, pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-               handler.onSuccessResponse(view,authResult.getUser().getUid());
+               handler.onSuccessResponse(authResult.getUser().getUid());
                 Log.i("zz", "onSuccess: yessss");
             //  Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment);
             }
@@ -40,11 +40,11 @@ public class FireBaseAuthHandler {
             }
         });
     }
-    void signUp(String email, String pass, OnResponseHandler handler, View view){
+   public void signUp(String email, String pass, OnResponseHandler handler){
         firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                handler.onSuccessResponse(view,authResult.getUser().getUid());
+                handler.onSuccessResponse(authResult.getUser().getUid());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

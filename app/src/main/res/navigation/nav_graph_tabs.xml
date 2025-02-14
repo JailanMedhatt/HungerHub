@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.hungerhub.homeTabs.search.SearchFragment"
+        android:name="com.example.hungerhub.homeTabs.search.view.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_searchFragment_to_planFragment"
             app:destination="@id/planFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_filteredMealsFragment"
+            app:destination="@id/filteredMealsFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -65,5 +68,14 @@
         <argument
             android:name="Meal"
             app:argType="com.example.hungerhub.homeTabs.MealModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/filteredMealsFragment"
+        android:name="com.example.hungerhub.homeTabs.search.chosenMeals.view.FilteredMealsFragment"
+        android:label="fragment_filtered_meals"
+        tools:layout="@layout/fragment_filtered_meals" >
+        <argument
+            android:name="FilterObj"
+            app:argType="com.example.hungerhub.homeTabs.search.FilterObj" />
     </fragment>
 </navigation>

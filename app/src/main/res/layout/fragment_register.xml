@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Authentication.RegisterFragment"
+    tools:context=".Authentication.register.view.RegisterFragment"
     android:background="@color/white"
     >
 
@@ -33,6 +33,18 @@
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name Required"
+        android:id="@+id/nameError"
+        android:visibility="invisible"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#FF0303"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintStart_toStartOf="@id/name"
+        />
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"

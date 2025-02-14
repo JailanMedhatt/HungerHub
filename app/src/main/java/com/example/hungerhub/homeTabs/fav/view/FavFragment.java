@@ -42,7 +42,7 @@ public class FavFragment extends Fragment implements FavIview {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter= new Presenter( new Repo(LocalDataSource.getInstance(getActivity()),false),this);
+        presenter= new Presenter( new Repo(LocalDataSource.getInstance(getActivity()),false,getActivity()),this);
 
     }
 

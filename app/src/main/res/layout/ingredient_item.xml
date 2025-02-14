@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="32dp"
     android:layout_margin="8dp"
-    android:backgroundTint="@color/primary">
+    android:id="@+id/card"
+    app:cardElevation="16dp"
+    android:backgroundTint="@color/white">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ingredientImg"
-
+                android:scaleType="centerCrop"
                 />
 
         </androidx.cardview.widget.CardView>
@@ -32,7 +34,8 @@
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Lemon"
-            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
             android:id="@+id/ingredient"
             android:layout_marginBottom="8dp"
             android:textAlignment="center"

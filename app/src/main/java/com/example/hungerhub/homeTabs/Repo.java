@@ -1,6 +1,9 @@
 package com.example.hungerhub.homeTabs;
 
+import android.content.Context;
+
 import com.example.hungerhub.FirebaseHelper;
+import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.homeTabs.home.model.MealResponse;
 import com.example.hungerhub.homeTabs.home.network.RemoteRandomMealDataSource;
 import java.util.List;
@@ -12,11 +15,14 @@ public class Repo {
     Boolean isNetworkAccessed;
     LocalDataSource localDataSource;
     FirebaseHelper firebaseHelper;
+    SharedPref sharedPref;
 
-  public Repo(LocalDataSource localDataSource,Boolean flag){
+  public Repo(LocalDataSource localDataSource, Boolean flag, Context context){
         this.localDataSource=localDataSource;
         this.isNetworkAccessed=flag;
         firebaseHelper= new FirebaseHelper();
+        sharedPref= SharedPref.getInstance(context);
+
     }
    public Completable insertMealTofav(MealModel mealModel){
       if(isNetworkAccessed){
@@ -26,9 +32,14 @@ public class Repo {
 
     }
     public Completable deleteMealFromFav(MealModel mealModel){
+      firebaseHelper.deleteMeal(mealModel);
       return localDataSource.deleteMealToFav(mealModel);
     }
     public Observable<List<MealModel>> getAllFavProducts(){
+      if(!sharedPref.isDataLoaded()){
+          sharedPref.setDataLoaded(true);
+          return firebaseHelper.getAllMeals(sharedPref.getUSERID());
+      }
      return localDataSource.getFavouriteMeals();
     }
     public Single<MealResponse> getDailyMeal(RemoteRandomMealDataSource dataSource){

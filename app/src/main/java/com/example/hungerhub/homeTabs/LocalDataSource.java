@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 
+import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.homeTabs.db.AppDb;
 import com.example.hungerhub.homeTabs.db.MealDao;
 
@@ -16,11 +17,12 @@ import io.reactivex.rxjava3.core.Observable;
 
 public class LocalDataSource {
 public  static  LocalDataSource localDataSource;
-LiveData<List <MealModel>> favouriteMeals;
+Context context;
  public MealDao dao;
 private LocalDataSource(Context context){
     dao= AppDb.getInstance(context).getMealDao();
 //    favouriteMeals=dao.getAlFavMeals();
+    this.context=context;
 }
 public static LocalDataSource getInstance(Context context){
     if(localDataSource==null){
@@ -35,7 +37,7 @@ public Completable deleteMealToFav(MealModel mealModel){
         return dao.deleteMealFromFav(mealModel);
     }
   public Observable<List<MealModel>> getFavouriteMeals(){
-    return dao.getAlFavMeals();
+    return dao.getAllFavMeals(SharedPref.getInstance(context).getUSERID());
   }
 
 

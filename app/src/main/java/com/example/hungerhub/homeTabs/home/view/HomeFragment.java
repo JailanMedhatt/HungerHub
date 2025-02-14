@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hungerhub.R;
+import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.homeTabs.LocalDataSource;
 import com.example.hungerhub.homeTabs.MealModel;
 import com.example.hungerhub.homeTabs.Repo;
@@ -42,8 +43,9 @@ public class HomeFragment extends Fragment implements IhomeView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        homePresenter= new HomePresenter(new Repo(LocalDataSource.getInstance(getActivity()),true),this);
-
+        homePresenter= new HomePresenter(new Repo(LocalDataSource.getInstance(getActivity()),true,getActivity()),this);
+//        SharedPref sharedPref= SharedPref.getInstance(getActivity());
+//        sharedPref.setDataLoaded(false);
     }
 
     @Override

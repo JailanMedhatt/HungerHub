@@ -151,10 +151,8 @@ public class LoginFragment extends Fragment implements OnResponseHandler {
     alertDialouge.showAlert();
     }
     @Override
-    public void onSuccessResponse(View view,String  uid) {
+    public void onSuccessResponse(String  uid) {
         sharedPref.setUSERID(uid);
-
-
      sharedPref.setLogged(true);
      Intent intent = new Intent(getActivity(), MainTabsActivity.class);
      startActivity(intent);

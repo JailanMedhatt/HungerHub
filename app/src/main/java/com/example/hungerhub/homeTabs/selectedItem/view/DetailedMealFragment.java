@@ -49,7 +49,7 @@ public class DetailedMealFragment extends Fragment implements MessageReciever {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter=new ItemDetailsPresenter(new Repo(LocalDataSource.getInstance(getActivity()),true),this);
+        presenter=new ItemDetailsPresenter(new Repo(LocalDataSource.getInstance(getActivity()),true,getActivity()),this);
 
     }
 
