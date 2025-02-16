@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_tabs"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/favFragment"
+        android:name="com.example.hungerhub.homeTabs.fav.view.FavFragment"
+        android:label="fragment_fav"
+        tools:layout="@layout/fragment_fav" >
+        <action
+            android:id="@+id/action_favFragment_to_planFragment"
+            app:destination="@id/planFragment" />
+        <action
+            android:id="@+id/action_favFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.hungerhub.homeTabs.search.view.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_favFragment"
+            app:destination="@id/favFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_planFragment"
+            app:destination="@id/planFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_filteredMealsFragment"
+            app:destination="@id/filteredMealsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.hungerhub.homeTabs.home.view.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_favFragment"
+            app:destination="@id/favFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_planFragment"
+            app:destination="@id/planFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/planFragment"
+        android:name="com.example.hungerhub.homeTabs.plan.view.PlanFragment"
+        android:label="fragment_plan"
+        tools:layout="@layout/fragment_plan" />
+    <fragment
+        android:id="@+id/detailedMealFragment"
+        android:name="com.example.hungerhub.homeTabs.detailedItem.view.DetailedMealFragment"
+        android:label="fragment_detailed_meal"
+        tools:layout="@layout/fragment_detailed_meal" >
+        <argument
+            android:name="Meal"
+            app:argType="com.example.hungerhub.homeTabs.model.MealModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/filteredMealsFragment"
+        android:name="com.example.hungerhub.homeTabs.search.FilteredMeals.view.FilteredMealsFragment"
+        android:label="fragment_filtered_meals"
+        tools:layout="@layout/fragment_filtered_meals" >
+        <argument
+            android:name="FilterObj"
+            app:argType="com.example.hungerhub.homeTabs.search.FilterObj" />
+        <action
+            android:id="@+id/action_filteredMealsFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment" />
+    </fragment>
+</navigation>

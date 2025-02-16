@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="122dp"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="32dp"
+    android:layout_margin="8dp"
+    android:id="@+id/card"
+    app:cardElevation="16dp"
+    android:backgroundTint="@color/white">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+
+        >
+        <androidx.cardview.widget.CardView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="64dp"
+            android:layout_marginStart="24dp"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ingredientImg"
+                android:scaleType="centerCrop"
+                />
+
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:text="Lemon"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:id="@+id/ingredient"
+            android:layout_marginBottom="8dp"
+            android:textAlignment="center"
+            android:paddingHorizontal="8dp"
+            />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

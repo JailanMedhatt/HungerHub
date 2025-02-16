@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "698206728933",
+    "project_id": "hungerhub-d2009",
+    "storage_bucket": "hungerhub-d2009.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698206728933:android:ac8ba5fb42cb9a93f71a0c",
+        "android_client_info": {
+          "package_name": "com.example.hungerhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698206728933-5vklao7k9hsmej4khf6hf661890u8e1k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hungerhub",
+            "certificate_hash": "75ca4c12d66a4d036980c933933cdb9c120fdf95"
+          }
+        },
+        {
+          "client_id": "698206728933-h1krgnfbpmit4b872d0am1hq93v5rbun.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeVYcox0V_bjexkWnrUC20haiQvxroaEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "698206728933-h1krgnfbpmit4b872d0am1hq93v5rbun.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
