@@ -59,9 +59,15 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     //firestore
     implementation("com.google.firebase:firebase-firestore")
+    implementation 'com.google.android.gms:play-services-base:18.2.0'
+
     //room rx
     implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     implementation("io.reactivex.rxjava3:rxjava:3.1.6")
     implementation "androidx.room:room-rxjava3:2.3.0-alpha02"
+    implementation 'com.google.android.material:material:1.9.0'
+    //carousel
+
+    implementation 'com.github.sparrow007:carouselrecyclerview:1.2.6'
 }

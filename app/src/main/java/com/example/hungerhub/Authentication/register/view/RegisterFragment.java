@@ -6,8 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import android.text.TextUtils;
-import android.util.Patterns;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hungerhub.Authentication.AlertDialouge;
-import com.example.hungerhub.Authentication.FireBaseAuthHandler;
 import com.example.hungerhub.Authentication.register.presenter.RegisterPresenter;
 import com.example.hungerhub.R;
 import com.example.hungerhub.SharedPref;
-import com.example.hungerhub.Authentication.interfaces.OnResponseHandler;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
-import com.example.hungerhub.homeTabs.fav.presenter.Presenter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -36,7 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class RegisterFragment extends Fragment implements OnResponseHandler,OnErrorHandling {
+public class RegisterFragment extends Fragment implements Registeriview {
     EditText name;
     EditText email;
     EditText pass;
@@ -61,7 +57,7 @@ public class RegisterFragment extends Fragment implements OnResponseHandler,OnEr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registerPresenter=new RegisterPresenter(this);
+        registerPresenter=new RegisterPresenter(this,getActivity());
         firebaseAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)) // Get Web Client ID from Firebase
@@ -108,7 +104,7 @@ public class RegisterFragment extends Fragment implements OnResponseHandler,OnEr
                    pass.getText().toString().trim(),
                    conPass.getText().toString().trim(),
                    email.getText().toString().trim(),
-                   name.getText().toString().trim(),this
+                   name.getText().toString().trim()
            );
         });
         goToLoginText.setOnClickListener(v->{
@@ -179,8 +175,8 @@ private void firebaseAuthWithGoogle(String idToken) {
     }
 
     @Override
-    public void onSuccessResponse(String uid) {
-        sharedPref.setLogged(true);
+    public void onSuccessResponse() {
+
         Intent intent = new Intent(getActivity(), MainTabsActivity.class);
         startActivity(intent);
         Toast.makeText(getActivity(),"logged in", Toast.LENGTH_LONG).show();

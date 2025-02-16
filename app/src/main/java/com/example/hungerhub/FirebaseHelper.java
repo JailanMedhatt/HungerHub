@@ -3,6 +3,7 @@ package com.example.hungerhub;
 import android.util.Log;
 
 import com.example.hungerhub.homeTabs.model.MealModel;
+import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -48,6 +49,48 @@ public class FirebaseHelper {
         db.collection("meals")
                 .whereEqualTo("idMeal", meal.getIdMeal())
                 .whereEqualTo("uId", meal.getuId())
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                            document.getReference().delete();
+                        }
+                    }
+                });
+    }
+    //
+    public void addMealToPlanFireStore(PlanMealModel mealModel){
+        db.collection("plan_meals").document().set(mealModel).addOnSuccessListener(
+                v->{
+                    Log.i("TAG", "addMealToFireStore:added ");
+                }
+        ).addOnFailureListener(e->{
+            Log.i("TAG", "addMealToFireStore:added ");
+        });
+    }
+    public Observable<List<PlanMealModel>> getAllPlansMeals(String uid) {
+        return Observable.<List<PlanMealModel>>create(emitter -> {
+            db.collection("plan_meals")
+                    .whereEqualTo("uId", uid)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        List<PlanMealModel> meals = new ArrayList<>();
+                        for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
+                            PlanMealModel meal = d.toObject(PlanMealModel.class);
+                            if (meal != null) {
+                                meals.add(meal);
+                            }
+                        }
+                        emitter.onNext(meals); // Emit the result
+                    })
+                    .addOnFailureListener(emitter::onError); // Emit an error if query fails
+        }).subscribeOn(Schedulers.io()); // Run on a background thread
+    }
+    public void deleteMealFromPlan(PlanMealModel meal) {
+        db.collection("plan_meals")
+                .whereEqualTo("mealId", meal.getMealId())
+                .whereEqualTo("uId", meal.getuId()).
+                 whereEqualTo("date",meal.getDate())
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     if (!querySnapshot.isEmpty()) {

@@ -5,8 +5,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.helper.widget.Carousel;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +30,9 @@ import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.home.presenter.HomePresenter;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 import com.example.hungerhub.Repo;
+import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview;
+
+import java.util.List;
 
 
 public class HomeFragment extends Fragment implements IhomeView {
@@ -34,6 +42,9 @@ public class HomeFragment extends Fragment implements IhomeView {
      MealModel mealModel;
      CardView card;
      HomePresenter homePresenter;
+     MyCarouselAdapter adapter;
+     LinearLayoutManager linearLayoutManager;
+     CarouselRecyclerview recyclerView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -58,10 +69,14 @@ public class HomeFragment extends Fragment implements IhomeView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        if(savedInstanceState!=null){
-//            mealModel= (MealModel) savedInstanceState.getSerializable("meal");
-//        }
+       recyclerView = view.findViewById(R.id.viewPager);
+       linearLayoutManager= new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+       recyclerView.setLayoutManager(linearLayoutManager);
+   recyclerView.setAlpha(true);
+   recyclerView.setInfinite(false);
         homePresenter.getDailyMeal();
+        homePresenter.getAllRandomMeals();
        mealPhoto= view.findViewById(R.id.mealPhoto);
        title= view.findViewById(R.id.title);
        card= view.findViewById(R.id.card);
@@ -88,9 +103,15 @@ public class HomeFragment extends Fragment implements IhomeView {
         Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG);
     }
 
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putSerializable("meal",mealModel);
-//    }
+    @Override
+    public void SetMeals(List<MealModel> meals) {
+        adapter = new MyCarouselAdapter(getActivity(),meals,this);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onMealClicked(MealModel meal) {
+        Navigation.findNavController(getView()).navigate(HomeFragmentDirections.actionHomeFragmentToDetailedMealFragment(meal));
+    }
 }

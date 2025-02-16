@@ -11,13 +11,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class FilteredMealsPresenter {
     Repo repo;
     FilterMealsiview iview;
-
+    List<MealModel> mealsBackUp;
     public FilteredMealsPresenter(Repo repo, FilterMealsiview iview) {
         this.repo = repo;
         this.iview = iview;
     }
 
-    List<MealModel> mealsBackUp;
+
     public  void getAllMealsByCat(String cat){
         repo.getMealsByCat(cat).subscribeOn(Schedulers.io()).map(
                 i->i.meals
@@ -48,6 +48,7 @@ public class FilteredMealsPresenter {
                 }
         );
     }
+
     public void getAllMeals(FilterObj filterObj){
         if(filterObj.isFilterByCat()){
             getAllMealsByCat(filterObj.getFilter());
@@ -59,6 +60,8 @@ public class FilteredMealsPresenter {
 
         }
     }
+
+
     public void filterMeals(String text){
         if(text==null|| TextUtils.isEmpty(text)){
             iview.setMealsList(mealsBackUp);

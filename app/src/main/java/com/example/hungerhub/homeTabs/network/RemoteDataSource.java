@@ -4,7 +4,6 @@ import com.example.hungerhub.homeTabs.model.MealResponse;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaResponse;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryResponse;
 import com.example.hungerhub.homeTabs.search.model.ingredientModels.IngredientResponse;
-
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.Retrofit;

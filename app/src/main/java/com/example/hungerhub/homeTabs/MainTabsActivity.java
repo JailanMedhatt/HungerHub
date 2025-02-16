@@ -3,6 +3,7 @@ package com.example.hungerhub.homeTabs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.example.hungerhub.R;
 import com.example.hungerhub.SharedPref;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainTabsActivity extends AppCompatActivity {
  BottomNavigationView bottomNavigationView;
@@ -27,12 +29,16 @@ public class MainTabsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_tabs);
-       bottomNavigationView= findViewById(R.id.navBar);
        sharedPref= SharedPref.getInstance(this);
-       manager=getSupportFragmentManager();
-        NavHostFragment navHostFragment= (NavHostFragment) manager.findFragmentById(R.id.nav_host_fragment);
 
+
+        bottomNavigationView= findViewById(R.id.navBar);
+         manager=getSupportFragmentManager();
+         NavHostFragment navHostFragment= (NavHostFragment) manager.findFragmentById(R.id.nav_host_fragment);
          NavController navController= navHostFragment.getNavController();
+
+
+
 
     bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
         @Override
@@ -43,7 +49,13 @@ public class MainTabsActivity extends AppCompatActivity {
                 startActivity(i);
                 return true;
             }
+            if((item.getItemId()==R.id.favFragment||item.getItemId()==R.id.planFragment)&&sharedPref.getUSERID()==null){
+                Toast.makeText(MainTabsActivity.this,"This feature is not available in guest mode",Toast.LENGTH_LONG).show();
+              return false ;
+            }
+
             return NavigationUI.onNavDestinationSelected(item,navController);
+
         }
     });
 

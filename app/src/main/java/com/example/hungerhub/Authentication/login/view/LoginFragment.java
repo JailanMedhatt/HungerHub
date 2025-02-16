@@ -1,4 +1,7 @@
-package com.example.hungerhub.Authentication;
+package com.example.hungerhub.Authentication.login.view;
+
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hungerhub.Authentication.AlertDialouge;
+import com.example.hungerhub.Authentication.FireBaseAuthHandler;
+import com.example.hungerhub.Authentication.GoogleAuthHelper;
+import com.example.hungerhub.Authentication.login.presenter.LoginPresenter;
 import com.example.hungerhub.R;
 import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.Authentication.interfaces.OnResponseHandler;
@@ -26,22 +33,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-public class LoginFragment extends Fragment implements OnResponseHandler {
+public class LoginFragment extends Fragment implements Loginiview{
     EditText email;
     EditText pass;
     Button loginBtn;
     TextView goToSignUpText;
-
+    TextView emailError;
+    TextView passError;
+   Button guestBtn;
     ImageView google;
     private static final int RC_SIGN_IN = 100;
     FirebaseAuth firebaseAuth;
     private GoogleSignInClient googleSignInClient;
     FireBaseAuthHandler fireBaseAuthHandler;
     SharedPref sharedPref;
+    LoginPresenter presenter;
     GoogleAuthHelper googleAuthHelper;
     public LoginFragment() {
         // Required empty public constructor
@@ -50,6 +60,7 @@ public class LoginFragment extends Fragment implements OnResponseHandler {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        googleAuthHelper = new GoogleAuthHelper(getActivity());
+        presenter= new LoginPresenter(this,getActivity());
         fireBaseAuthHandler= FireBaseAuthHandler.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         sharedPref= SharedPref.getInstance(getActivity());
@@ -57,12 +68,13 @@ public class LoginFragment extends Fragment implements OnResponseHandler {
                 .requestIdToken(getString(R.string.default_web_client_id)) // Get Web Client ID from Firebase
                 .requestEmail()
                 .build();
-        googleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        googleSignInClient = GoogleSignIn.getClient(FirebaseApp.getInstance().getApplicationContext(), gso);
         if(sharedPref.isLogged()){
             Intent intent = new Intent(getActivity(), MainTabsActivity.class);
             startActivity(intent);
 
         }
+
 
     }
     @Override
@@ -77,13 +89,20 @@ public class LoginFragment extends Fragment implements OnResponseHandler {
         super.onViewCreated(view, savedInstanceState);
         email = view.findViewById(R.id.email);
         pass = view.findViewById(R.id.pass);
+        guestBtn= view.findViewById(R.id.guestButton);
         loginBtn = view.findViewById(R.id.loginBtn);
+        emailError=view.findViewById(R.id.emailError);
+        passError=view.findViewById(R.id.passError);
         google = view.findViewById(R.id.google);
         google.setOnClickListener(v -> signInWithGoogle());
+        guestBtn.setOnClickListener(v->{
+            presenter.ensureGuestMode();
+            Intent i = new Intent(getActivity(),MainTabsActivity.class);
+            startActivity(i);
+        });
         loginBtn.setOnClickListener(v -> {
-            if (checkEmptyFields()) {
-                fireBaseAuthHandler.login(email.getText().toString().trim(), pass.getText().toString().trim(),this,view);
-            }
+            hideErrors();
+           presenter.login(email.getText().toString().trim(),pass.getText().toString().trim());
         });
         goToSignUpText = view.findViewById(R.id.goToSignUp);
         goToSignUpText.setOnClickListener(v -> {
@@ -91,18 +110,7 @@ public class LoginFragment extends Fragment implements OnResponseHandler {
         });
     }
 
-    boolean checkEmptyFields() {
-        boolean isValid = true;
-        if (TextUtils.isEmpty(email.getText().toString().trim())) {
-            email.setError("Email required");
-            isValid = false;
-        }
-        if (TextUtils.isEmpty(pass.getText().toString().trim())) {
-            pass.setError("Password required");
-            isValid = false;
-        }
-        return isValid;
-    }
+
 
     private void signInWithGoogle() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
@@ -143,20 +151,32 @@ public class LoginFragment extends Fragment implements OnResponseHandler {
                     }
                 });
     }
+    public  void hideErrors(){
+        emailError.setVisibility(INVISIBLE);
+        passError.setVisibility(INVISIBLE);
+    }
     @Override
     public void onFailureResponse(String message) {
-
     AlertDialouge alertDialouge= new AlertDialouge(getActivity(),
         "warning",message,"ok",null);
     alertDialouge.showAlert();
     }
     @Override
-    public void onSuccessResponse(String  uid) {
-        sharedPref.setUSERID(uid);
-     sharedPref.setLogged(true);
+    public void onSuccessResponse() {
      Intent intent = new Intent(getActivity(), MainTabsActivity.class);
      startActivity(intent);
      Toast.makeText(getActivity(),"logged in", Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onEmailError(String msg) {
+        emailError.setVisibility(VISIBLE);
+        emailError.setText(msg);
+    }
+
+    @Override
+    public void onPassError() {
+        passError.setVisibility(VISIBLE);
+
+    }
 }

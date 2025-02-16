@@ -29,7 +29,6 @@ import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 import java.util.List;
 
 public class FilteredMealsFragment extends Fragment implements FilterMealsiview {
-
     RecyclerView rc;
     LinearLayoutManager layoutManager;
     EditText searchEditText;
@@ -69,7 +68,7 @@ public class FilteredMealsFragment extends Fragment implements FilterMealsiview 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rc.setLayoutManager(layoutManager);
         searchEditText=view.findViewById(R.id.searchEditText);
-      setTitle(filter);
+        setTitle(filter);
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

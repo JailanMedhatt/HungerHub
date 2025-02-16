@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import com.example.hungerhub.R;
 import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.commonView.CardIview;
+import com.example.hungerhub.homeTabs.commonView.MyAdapter;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.fav.presenter.Presenter;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FavFragment extends Fragment implements FavIview {
+public class FavFragment extends Fragment implements CardIview,FavIview{
 
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;

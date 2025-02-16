@@ -3,16 +3,15 @@ package com.example.hungerhub.homeTabs.model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-@Entity(tableName = "meal_table")
+@Entity(tableName = "meal_table",primaryKeys = {"uId","idMeal"})
 public class MealModel implements Serializable {
+    @NonNull
     public String uId;
-    @PrimaryKey
-            @NonNull
+    @NonNull
     String idMeal;
     @SerializedName("strMeal")
     String title;
@@ -29,7 +28,6 @@ public class MealModel implements Serializable {
     String strIngredient4;
     String strIngredient5;
     String strIngredient6;
-    int calendar;
     String strIngredient7;
     String strIngredient8;
     String strIngredient9;
@@ -229,7 +227,7 @@ public class MealModel implements Serializable {
     String strIngredient20;
     public  MealModel(){}
 
-    public MealModel(String uId, @NonNull String idMeal, String title, String strCategory, String imgUrl, String strYoutube, String strInstructions, String strArea, String strCategorry, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, int calendar, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String strIngredient12, String strIngredient13, String strIngredient14, String strIngredient15, String strIngredient16, String strIngredient17, String strIngredient18, String strIngredient19, String strIngredient20) {
+    public MealModel(String uId, @NonNull String idMeal, String title, String strCategory, String imgUrl, String strYoutube, String strInstructions, String strArea, String strCategorry, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String strIngredient12, String strIngredient13, String strIngredient14, String strIngredient15, String strIngredient16, String strIngredient17, String strIngredient18, String strIngredient19, String strIngredient20) {
         this.uId = uId;
         this.idMeal = idMeal;
         this.title = title;
@@ -245,7 +243,7 @@ public class MealModel implements Serializable {
         this.strIngredient4 = strIngredient4;
         this.strIngredient5 = strIngredient5;
         this.strIngredient6 = strIngredient6;
-        this.calendar = calendar;
+
         this.strIngredient7 = strIngredient7;
         this.strIngredient8 = strIngredient8;
         this.strIngredient9 = strIngredient9;
@@ -310,11 +308,4 @@ public class MealModel implements Serializable {
         this.strYoutube = strYoutube;
     }
 
-    public int getCalendar() {
-        return calendar;
-    }
-
-    public void setCalendar(int calendar) {
-        this.calendar = calendar;
-    }
 }

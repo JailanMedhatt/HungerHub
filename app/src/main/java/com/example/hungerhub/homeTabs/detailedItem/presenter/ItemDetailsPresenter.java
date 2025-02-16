@@ -4,6 +4,7 @@ import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.detailedItem.view.DetailedMeal_iView;
 import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,10 +17,11 @@ public class ItemDetailsPresenter {
     SharedPref sharedPref;
     DetailedMeal_iView iview;
     Repo repo;
-    public ItemDetailsPresenter(DetailedMeal_iView messageReciever, Repo repo){
+    public ItemDetailsPresenter(DetailedMeal_iView messageReciever, Repo repo,Context context){
 
         this.iview =messageReciever;
         this.repo = repo;
+        sharedPref= SharedPref.getInstance(context);
 
 
     }
@@ -40,14 +42,43 @@ public class ItemDetailsPresenter {
     return  ingredientsList;
 }
 public  void  addMealToFav(MealModel mealModel, Context context){
+        if(sharedPref.getUSERID()!=null){
+
         MealModel meal=mealModel;
         sharedPref=SharedPref.getInstance(context);
         meal.setuId(sharedPref.getUSERID());
     repo.insertMealTofav(mealModel).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(()-> iview.onMessageReceived("Meal is added to fav"),
                     e-> iview.onMessageReceived(e.getMessage()));
+        }
+        else {
+            iview.onMessageReceived("This feature is not available in guest mode");
+        }
 
 }
+    public  void  addMealToPlan(PlanMealModel mealModel, Context context){
+        if(sharedPref.getUSERID()!=null){
+        PlanMealModel meal=mealModel;
+
+        sharedPref=SharedPref.getInstance(context);
+        meal.setuId(sharedPref.getUSERID());
+        meal.setMealId(mealModel.getMealModel().getIdMeal());
+        repo.insertMealToPlan(meal).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(()-> iview.onMessageReceived("Meal is added to plan"),
+                        e-> iview.onMessageReceived(e.getMessage()));}
+        else {
+            iview.onMessageReceived("This feature is not available in guest mode");
+        }
+
+
+    }
+
+
+
+
+
+
+
 
     public String getVideoId(String videoUrl){
         String video="";
@@ -58,4 +89,12 @@ public  void  addMealToFav(MealModel mealModel, Context context){
         return video;
     }
 
+
 }
+
+
+
+
+
+
+

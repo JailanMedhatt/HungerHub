@@ -9,7 +9,7 @@ public class SharedPref {
     final static  String FILENAME ="sharedPrefFile";
     SharedPreferences.Editor editor;
     public final String IS_LOGGED="isLogged";
-    public final String IS_DATA_LOADED="fsdata";
+
     public final String USERID="USER";
 
     private SharedPref(Context context){
@@ -32,21 +32,13 @@ public class SharedPref {
         bool= sharedPreferences.getBoolean(IS_LOGGED,false);
         return bool;
     }
-    public void setDataLoaded(Boolean isLogged){
-        editor.putBoolean(IS_DATA_LOADED,isLogged);
-        editor.commit();
-    }
-    public  boolean isDataLoaded(){
-        Boolean bool;
-        bool= sharedPreferences.getBoolean(IS_DATA_LOADED,false);
-        return bool;
-    }
+
     public void setUSERID(String uid){
         editor.putString(USERID,uid);
         editor.commit();
     }
     public String getUSERID(){
-        return sharedPreferences.getString(USERID,"");
+        return sharedPreferences.getString(USERID,null);
 
     }
 

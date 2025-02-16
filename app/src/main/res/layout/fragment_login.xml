@@ -4,10 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Authentication.LoginFragment"
+    tools:context=".Authentication.login.view.LoginFragment"
     android:background="@color/white"
     >
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/primary"
+        android:text="Countinue as a guest"
+        android:id="@+id/guestButton"/>
     <ImageView
         android:id="@+id/logo"
         android:layout_width="500dp"
@@ -18,6 +26,7 @@
         app:layout_constraintHorizontal_bias="0.617"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/email"
@@ -37,18 +46,30 @@
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo" />
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Passwords do not match !"-->
-<!--        android:id="@+id/matchPassError1"-->
-<!--        android:visibility="invisible"-->
-<!--        android:layout_marginStart="32dp"-->
-<!--        android:layout_marginTop="4dp"-->
-<!--        android:textColor="#FF0303"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/pass"-->
-<!--        app:layout_constraintStart_toStartOf="@id/pass"-->
-<!--        />-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email is required"
+        android:id="@+id/emailError"
+        android:visibility="invisible"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#FF0303"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintStart_toStartOf="@id/email"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password is required"
+        android:id="@+id/passError"
+        android:visibility="invisible"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#FF0303"
+        app:layout_constraintTop_toBottomOf="@id/pass"
+        app:layout_constraintStart_toStartOf="@id/pass"
+        />
 
     <EditText
         android:id="@+id/pass"

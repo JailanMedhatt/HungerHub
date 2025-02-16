@@ -8,15 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hungerhub.R;
-
-
 import java.util.List;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
@@ -45,10 +41,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         String current = ingredients.get(position);
         //holder.imageView.setImageBitmap(current.getImage());
-        Glide.with(context).load("https://www.themealdb.com/images/ingredients/"+current+".png").apply(new RequestOptions().override(200,200)).placeholder(R.drawable.ic_launcher_background).error(R.drawable.ic_launcher_foreground).into(holder.imageView);
+        Glide.with(context).load("https://www.themealdb.com/images/ingredients/"+current+".png")
+                .apply(new RequestOptions().override(200,200)).placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_foreground).into(holder.imageView);
         holder.tileTxt.setText(current);
-
-
 
 
     }

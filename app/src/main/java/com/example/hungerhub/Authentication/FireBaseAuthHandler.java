@@ -25,7 +25,7 @@ public class FireBaseAuthHandler {
         }
         return  instance;
     }
-    void login(String email, String pass, OnResponseHandler handler, View view) {
+   public void login(String email, String pass, OnResponseHandler handler) {
         firebaseAuth.signInWithEmailAndPassword(email, pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {

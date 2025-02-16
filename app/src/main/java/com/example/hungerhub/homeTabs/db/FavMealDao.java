@@ -14,10 +14,10 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 
 @Dao
-public interface MealDao {
+public interface FavMealDao {
     @Query("SELECT * FROM meal_table WHERE uId = :uId")
     Observable<List<MealModel>> getAllFavMeals(String uId);
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public Completable insertMealToFav(MealModel mealModel);
     @Delete
     public Completable deleteMealFromFav(MealModel mealModel);

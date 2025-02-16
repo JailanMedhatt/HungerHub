@@ -1,7 +1,6 @@
 package com.example.hungerhub.homeTabs.search.presenter;
 
 import android.text.TextUtils;
-
 import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaModel;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryModel;
@@ -90,7 +89,7 @@ public class SearchPresenter {
         }
 
     }
-    public void filtercategoryList(String text){
+    public void filterAreaList(String text){
         if(text==null|| TextUtils.isEmpty(text)){
             iview.setAreasList(backupAreas);
         }
@@ -102,6 +101,7 @@ public class SearchPresenter {
         }
 
     }
+
     public void  filterList(String text){
         if(isCategorySelcted){
             filterCategoriesList(text);
@@ -109,7 +109,7 @@ public class SearchPresenter {
             filterIngredientList(text);
         }
         else if(isCountrySelected){
-            filtercategoryList(text);
+            filterAreaList(text);
         }
     }
 }
