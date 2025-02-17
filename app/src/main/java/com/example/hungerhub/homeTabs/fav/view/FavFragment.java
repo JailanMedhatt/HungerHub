@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -78,6 +79,11 @@ public class FavFragment extends Fragment implements CardIview,FavIview{
     public void setfavMeals(List<MealModel> meals) {
         adapter.setMeals(meals);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onMealClicked(MealModel mealModel) {
+        Navigation.findNavController(getView()).navigate(FavFragmentDirections.actionFavFragmentToDetailedMealFragment(mealModel));
     }
 
     @Override

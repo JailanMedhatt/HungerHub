@@ -10,7 +10,6 @@ import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 public class HomePresenter {
 
@@ -30,19 +29,19 @@ public HomePresenter(Repo repo, IhomeView ihomeView){
             );
  }
  public void getAllRandomMeals(){
-     CompositeDisposable compositeDisposable = new CompositeDisposable();
+
      List<MealModel> mealList = new ArrayList<>();
 
-     compositeDisposable.add(
+
              Single.defer(() -> repo.getDailyMeal())  // Ensures a fresh request each time
-                     .repeat(10)  // Calls the API 10 times
+                     .repeat(10)
                      .subscribeOn(Schedulers.io()).map(obj->obj.meals)
                      .observeOn(AndroidSchedulers.mainThread())
                      .subscribe(
-                             mealResponse -> {mealList.addAll(mealResponse); // Collect results
+                             mealResponse -> {mealList.addAll(mealResponse);
                             ihomeView.SetMeals(mealList);}
-                     )
-     );
+                     );
+
 
  }
 }

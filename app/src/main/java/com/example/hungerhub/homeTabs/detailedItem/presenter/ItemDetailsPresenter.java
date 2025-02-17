@@ -52,7 +52,9 @@ public  void  addMealToFav(MealModel mealModel, Context context){
                     e-> iview.onMessageReceived(e.getMessage()));
         }
         else {
+
             iview.onMessageReceived("This feature is not available in guest mode");
+
         }
 
 }
@@ -74,7 +76,12 @@ public  void  addMealToFav(MealModel mealModel, Context context){
     }
 
 
-
+   public boolean isGuestMood(){
+        if (sharedPref.getUSERID()==null){
+            return  true;
+        }
+        return false;
+   }
 
 
 

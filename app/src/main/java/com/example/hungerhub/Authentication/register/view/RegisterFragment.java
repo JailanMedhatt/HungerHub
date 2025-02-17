@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -64,7 +65,7 @@ public class RegisterFragment extends Fragment implements Registeriview {
                 .requestEmail()
                 .build();
 
-        googleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        googleSignInClient = GoogleSignIn.getClient(FirebaseApp.getInstance().getApplicationContext(), gso);
         sharedPref=SharedPref.getInstance(getActivity());
 //        googleSignInClient.signOut();
 //        firebaseAuth.signOut();
@@ -157,12 +158,11 @@ private void firebaseAuthWithGoogle(String idToken) {
                 if (task.isSuccessful()) {
                     // Sign-in successful
                     FirebaseUser user = firebaseAuth.getCurrentUser();
-                    Intent intent = new Intent(getActivity(), MainTabsActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(getActivity(),"logged in", Toast.LENGTH_LONG).show();
+                    sharedPref.setUSERID(user.getUid());
+                   onSuccessResponse();
                 } else {
                     // Sign-in failed
-                    Toast.makeText(getActivity(), "Authentication Failed!", Toast.LENGTH_SHORT).show();
+                    onFailureResponse("Authentication Failed!");
                 }
             });
 }
@@ -176,6 +176,7 @@ private void firebaseAuthWithGoogle(String idToken) {
 
     @Override
     public void onSuccessResponse() {
+        sharedPref.setLogged(true);
 
         Intent intent = new Intent(getActivity(), MainTabsActivity.class);
         startActivity(intent);

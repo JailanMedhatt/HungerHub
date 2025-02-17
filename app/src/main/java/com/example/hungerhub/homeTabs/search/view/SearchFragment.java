@@ -29,6 +29,7 @@ import com.example.hungerhub.homeTabs.search.view.recyclyerAdapters.IngredientsR
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment implements SearchResponseHandler{
@@ -108,8 +109,11 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
                             presenter.getIngredients();
 
                         }
-                        else{
+                        else if(chip.getText().toString().equals("Country")){
                             presenter.getAreas();
+                        }
+                        else {
+
                         }
                     }
                 }

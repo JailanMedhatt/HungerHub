@@ -1,14 +1,11 @@
 package com.example.hungerhub.Authentication.register.presenter;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Patterns;
-
 import com.example.hungerhub.Authentication.FireBaseAuthHandler;
 import com.example.hungerhub.Authentication.interfaces.OnResponseHandler;
 import com.example.hungerhub.Authentication.register.view.Registeriview;
 import com.example.hungerhub.SharedPref;
-
 public class RegisterPresenter implements OnResponseHandler{
     Registeriview registeriview;
     FireBaseAuthHandler fireBaseAuthHandler;
@@ -62,12 +59,12 @@ public class RegisterPresenter implements OnResponseHandler{
        if(!isAnyFieldEmpty( pass,  conPass,  email, name)){
            fireBaseAuthHandler.signUp(email,pass, this);
        }
-
     }
 
     @Override
     public void onSuccessResponse(String uid) {
         sharedPref.setLogged(true);
+        sharedPref.setUSERID(uid);
         registeriview.onSuccessResponse();
     }
 

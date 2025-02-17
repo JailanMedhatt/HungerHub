@@ -1,21 +1,18 @@
 package com.example.hungerhub;
-
 import android.util.Log;
-
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class FirebaseHelper {
     private FirebaseFirestore db;
    public FirebaseHelper(){
+
         db=FirebaseFirestore.getInstance();
     }
     public void addMealToFireStore(MealModel mealModel){

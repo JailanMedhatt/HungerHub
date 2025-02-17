@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -89,5 +90,10 @@ public class PlanFragment extends Fragment implements Planiview{
     @Override
     public void SetMessage(String msg) {
         Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onMealClicked(MealModel mealModel) {
+        Navigation.findNavController(getView()).navigate(PlanFragmentDirections.actionPlanFragmentToDetailedMealFragment(mealModel));
     }
 }

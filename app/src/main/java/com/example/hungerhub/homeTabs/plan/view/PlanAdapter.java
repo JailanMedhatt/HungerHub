@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -55,7 +56,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.MyViewHolder> 
         holder.tileTxt.setText(current.getMealModel().getTitle());
         holder.area.setText(current.getMealModel().getStrArea());
         holder.remBtn.setOnClickListener(v->planiview.deleteMeal(current));
-
+       holder.cardView.setOnClickListener(v->planiview.onMealClicked(meals.get(position).getMealModel()));
 
 
     }
@@ -73,13 +74,14 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.MyViewHolder> 
         Button remBtn;
         TextView area;
 
-
+    CardView cardView;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.mealPhotoFav);
             tileTxt = itemView.findViewById(R.id.favTitle);
             remBtn= itemView.findViewById(R.id.deleteBtn);
             area= itemView.findViewById(R.id.area);
+            cardView=itemView.findViewById(R.id.card);
 
         }
     }

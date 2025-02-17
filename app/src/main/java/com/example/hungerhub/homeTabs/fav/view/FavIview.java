@@ -8,4 +8,5 @@ public interface FavIview {
     public void setfavMeals(List<MealModel> meals);
     public void deleteFromFav(MealModel mealModel);
     public void SetMessage(String msg);
+    public void onMealClicked(MealModel mealModel);
 }

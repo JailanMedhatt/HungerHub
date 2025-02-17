@@ -92,7 +92,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMeal_iView
             webView.loadData(videoId,"text/html","utf-8");
         }
         private  void showDatePicker(){
-        if(SharedPref.getInstance(getActivity()).getUSERID()!=null){
+        if(!presenter.isGuestMood()){
             Calendar calendar = Calendar.getInstance();
 
             // Get the start of the current week (Monday)

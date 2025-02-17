@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -55,6 +56,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.remBtn.setOnClickListener(v->{
             favIview.deleteFromFav(current);
         });
+        holder.cardView.setOnClickListener(v->favIview.onMealClicked(current));
 
     }
 
@@ -70,6 +72,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         TextView tileTxt;
         Button remBtn;
         TextView area;
+        CardView cardView;
 
 
         public MyViewHolder(@NonNull View itemView) {
@@ -78,6 +81,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             tileTxt = itemView.findViewById(R.id.favTitle);
             remBtn= itemView.findViewById(R.id.deleteBtn);
             area= itemView.findViewById(R.id.area);
+            cardView= itemView.findViewById(R.id.card);
 
         }
     }

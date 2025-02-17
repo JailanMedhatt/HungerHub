@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +17,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.hungerhub.Authentication.AlertDialouge;
 import com.example.hungerhub.Authentication.FireBaseAuthHandler;
-import com.example.hungerhub.Authentication.GoogleAuthHelper;
+
 import com.example.hungerhub.Authentication.login.presenter.LoginPresenter;
 import com.example.hungerhub.R;
 import com.example.hungerhub.SharedPref;
-import com.example.hungerhub.Authentication.interfaces.OnResponseHandler;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -36,6 +33,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginFragment extends Fragment implements Loginiview{
     EditText email;
@@ -52,7 +50,8 @@ public class LoginFragment extends Fragment implements Loginiview{
     FireBaseAuthHandler fireBaseAuthHandler;
     SharedPref sharedPref;
     LoginPresenter presenter;
-    GoogleAuthHelper googleAuthHelper;
+
+    String webClientId;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -60,6 +59,7 @@ public class LoginFragment extends Fragment implements Loginiview{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        googleAuthHelper = new GoogleAuthHelper(getActivity());
+        webClientId=getString(R.string.default_web_client_id);
         presenter= new LoginPresenter(this,getActivity());
         fireBaseAuthHandler= FireBaseAuthHandler.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -139,15 +139,13 @@ public class LoginFragment extends Fragment implements Loginiview{
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         // Sign-in successful
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        sharedPref.setUSERID(user.getUid());
                         sharedPref.setLogged(true);
-
-                        Intent intent = new Intent(getActivity(), MainTabsActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(getActivity(),"logged in", Toast.LENGTH_LONG).show();
+                     onSuccessResponse();
 
                     } else {
-                        // Sign-in failed
-                        Toast.makeText(getActivity(), "Authentication Failed!", Toast.LENGTH_SHORT).show();
+                     onFailureResponse("Authentication Failed!");
                     }
                 });
     }
