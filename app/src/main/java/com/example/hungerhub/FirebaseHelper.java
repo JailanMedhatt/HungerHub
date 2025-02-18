@@ -1,25 +1,22 @@
 package com.example.hungerhub;
-
 import android.util.Log;
-
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-
 public class FirebaseHelper {
     private FirebaseFirestore db;
    public FirebaseHelper(){
+
         db=FirebaseFirestore.getInstance();
     }
     public void addMealToFireStore(MealModel mealModel){
-        db.collection("meals").document().set(mealModel).addOnSuccessListener(
+        db.collection("meals").document(mealModel.getuId()+mealModel.getIdMeal())
+                .set(mealModel).addOnSuccessListener(
                 v->{
                     Log.i("TAG", "addMealToFireStore:added ");
                 }
@@ -33,7 +30,9 @@ public class FirebaseHelper {
                     .whereEqualTo("uId", uid)
                     .get()
                     .addOnSuccessListener(queryDocumentSnapshots -> {
+
                         List<MealModel> meals = new ArrayList<>();
+
                         for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
                             MealModel meal = d.toObject(MealModel.class);
                             if (meal != null) {
@@ -60,7 +59,7 @@ public class FirebaseHelper {
     }
     //
     public void addMealToPlanFireStore(PlanMealModel mealModel){
-        db.collection("plan_meals").document().set(mealModel).addOnSuccessListener(
+        db.collection("plan_meals").document(mealModel.getMealId()+mealModel.getDate()+mealModel.getuId()).set(mealModel).addOnSuccessListener(
                 v->{
                     Log.i("TAG", "addMealToFireStore:added ");
                 }

@@ -1,6 +1,10 @@
 package com.example.hungerhub.homeTabs.home.presenter;
 
 
+import android.content.Context;
+
+import com.example.hungerhub.NetworkConnectivity.NetworkResponse;
+import com.example.hungerhub.NetworkConnectivity.NetworkUtils;
 import com.example.hungerhub.homeTabs.home.view.IhomeView;
 import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.model.MealModel;
@@ -10,15 +14,18 @@ import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-public class HomePresenter {
+public class HomePresenter implements NetworkResponse {
 
 Repo repo;
 IhomeView ihomeView;
-public HomePresenter(Repo repo, IhomeView ihomeView){
+Context context;
+public HomePresenter(Repo repo, IhomeView ihomeView,Context context){
     this.repo=repo;
     this.ihomeView= ihomeView;
+    this.context=context;
+
+
 }
  public void getDailyMeal(){
     repo.getDailyMeal().subscribeOn(Schedulers.io()).map(
@@ -29,20 +36,44 @@ public HomePresenter(Repo repo, IhomeView ihomeView){
                     list->ihomeView.onSuccess(list.get(0))
             );
  }
+
  public void getAllRandomMeals(){
-     CompositeDisposable compositeDisposable = new CompositeDisposable();
+
      List<MealModel> mealList = new ArrayList<>();
 
-     compositeDisposable.add(
+
              Single.defer(() -> repo.getDailyMeal())  // Ensures a fresh request each time
-                     .repeat(10)  // Calls the API 10 times
+                     .repeat(10)
                      .subscribeOn(Schedulers.io()).map(obj->obj.meals)
                      .observeOn(AndroidSchedulers.mainThread())
                      .subscribe(
-                             mealResponse -> {mealList.addAll(mealResponse); // Collect results
+                             mealResponse -> {mealList.addAll(mealResponse);
                             ihomeView.SetMeals(mealList);}
-                     )
-     );
+                     );
+
 
  }
+
+ public void loadData(){
+    if(NetworkUtils.isInternetAvailable(context)){
+    getDailyMeal();
+    getAllRandomMeals();}
+    else {
+        ihomeView.onNetworkDisconnected();
+    }
+     NetworkUtils.registerNetworkCallback(context,this);
+}
+
+    @Override
+    public void onNetworkConncted() {
+    getDailyMeal();
+    getAllRandomMeals();
+    ihomeView.onNetworkConncted();
+    }
+
+    @Override
+    public void onNetworkDisconnected() {
+    ihomeView.onNetworkDisconnected();
+
+    }
 }

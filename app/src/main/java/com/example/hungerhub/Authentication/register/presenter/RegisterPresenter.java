@@ -1,22 +1,30 @@
 package com.example.hungerhub.Authentication.register.presenter;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.widget.Toast;
 
 import com.example.hungerhub.Authentication.FireBaseAuthHandler;
 import com.example.hungerhub.Authentication.interfaces.OnResponseHandler;
 import com.example.hungerhub.Authentication.register.view.Registeriview;
 import com.example.hungerhub.SharedPref;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class RegisterPresenter implements OnResponseHandler{
     Registeriview registeriview;
     FireBaseAuthHandler fireBaseAuthHandler;
     SharedPref sharedPref;
+
+    FirebaseAuth firebaseAuth;
    public RegisterPresenter(Registeriview registeriview, Context context){
        fireBaseAuthHandler=FireBaseAuthHandler.getInstance();
        this.registeriview = registeriview;
        sharedPref= SharedPref.getInstance(context);
+       firebaseAuth = FirebaseAuth.getInstance();
+       fireBaseAuthHandler= FireBaseAuthHandler.getInstance();
    }
     public boolean checkFieldsValidity(String pass, String conPass, String email){
    Boolean isValid=true;
@@ -58,16 +66,35 @@ public class RegisterPresenter implements OnResponseHandler{
         }
         return anyEmptyField;
     }
+    public void firebaseAuthWithGoogle(String idToken) {
+        if(idToken==null){
+            registeriview.onFailureResponse("You didn't choose an email!");
+            return;
+        }
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener( task -> {
+                    if (task.isSuccessful()) {
+                        // Sign-in successful
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        onSuccessResponse(user.getUid());
+                    } else {
+                        // Sign-in failed
+                        onFailureResponse("Authentication Failed!");
+                    }
+                });
+    }
+
     public void register(String pass, String conPass, String email, String name){
        if(!isAnyFieldEmpty( pass,  conPass,  email, name)){
            fireBaseAuthHandler.signUp(email,pass, this);
        }
-
     }
 
     @Override
     public void onSuccessResponse(String uid) {
         sharedPref.setLogged(true);
+        sharedPref.setUSERID(uid);
         registeriview.onSuccessResponse();
     }
 

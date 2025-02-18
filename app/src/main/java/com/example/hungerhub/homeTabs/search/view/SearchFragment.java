@@ -1,8 +1,13 @@
 package com.example.hungerhub.homeTabs.search.view;
 
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -29,6 +34,7 @@ import com.example.hungerhub.homeTabs.search.view.recyclyerAdapters.IngredientsR
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment implements SearchResponseHandler{
@@ -38,7 +44,8 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
     AreaRecyclerAdapter areaRecyclerAdapter;
     EditText searchEditText;
     IngredientsRecyclerAdapter ingredientsRecyclerAdapter;
-
+    Group mainGroup;
+    Group group2;
     View view;
     ChipGroup chipGroup;
     SearchPresenter presenter;
@@ -51,7 +58,7 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter= new SearchPresenter(new Repo(RemoteDataSource.getInstance(), LocalDataSource.getInstance(getActivity()),true),this);
+
 
     }
 
@@ -65,6 +72,11 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        presenter= new SearchPresenter(new Repo(RemoteDataSource.getInstance(), LocalDataSource.getInstance(getActivity()),true),this,getContext());
+
+        mainGroup= view.findViewById(R.id.mainGp);
+        group2= view.findViewById(R.id.Gp2);
         chipGroup= view.findViewById(R.id.chipGroup);
         rc=view.findViewById(R.id.rv);
         layoutManager= new GridLayoutManager(getActivity(),3,GridLayoutManager.VERTICAL,false);
@@ -72,15 +84,14 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
         setUpFilterChips();
         searchEditText=view.findViewById(R.id.searchEditText);
         this.view=view;
+        presenter.isNetworkAccessed();
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 presenter.filterList(s.toString());
             }
 
@@ -89,8 +100,6 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
 
             }
         });
-
-
     }
     private void setUpFilterChips() {
 
@@ -108,9 +117,14 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
                             presenter.getIngredients();
 
                         }
-                        else{
+                        else if(chip.getText().toString().equals("Country")){
                             presenter.getAreas();
                         }
+//                        else {
+//                            List <IngredientModel> empty= new ArrayList<>();
+//                            setIngredientsList(empty);
+//
+//                        }
                     }
                 }
             }
@@ -119,9 +133,23 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
     }
 
     @Override
+    public void onNetworkDisconnected() {
+        mainGroup.setVisibility(GONE);
+        group2.setVisibility(VISIBLE);
+
+    }
+
+    @Override
+    public void onNetworkConncted() {
+        mainGroup.setVisibility(VISIBLE);
+        group2.setVisibility(INVISIBLE);
+    }
+
+    @Override
     public void setIngredientsList(List<IngredientModel> ingredients) {
         ingredientsRecyclerAdapter= new IngredientsRecyclerAdapter(getActivity(),ingredients,this);
         rc.setAdapter(ingredientsRecyclerAdapter);
+        ingredientsRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -147,8 +175,6 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
         Navigation.findNavController(view).navigate(SearchFragmentDirections.actionSearchFragmentToFilteredMealsFragment(filterObj));
 
     }
-
-
 
     @Override
     public void onAreaClicked(String ing) {

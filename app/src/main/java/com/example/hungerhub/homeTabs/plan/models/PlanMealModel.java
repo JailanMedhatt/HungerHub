@@ -19,6 +19,10 @@ public class PlanMealModel implements Serializable  {
   public String date;
     @NonNull
     public  String mealId;
+
+
+
+
   public  PlanMealModel(){}
 
     @NonNull

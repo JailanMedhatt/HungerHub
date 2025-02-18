@@ -5,13 +5,29 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
+
     tools:context=".homeTabs.home.view.HomeFragment">
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/group1"
+        android:visibility="visible"
+        app:constraint_referenced_ids="dailyRecipes,card,dailyRecipesText,viewPager"
+        />
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:visibility="visible"
+        android:layout_height="wrap_content"
+        android:id="@+id/group2"
+        app:constraint_referenced_ids="logo"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/dailyRecipesText"
+
         android:text="Meal of the day"
         android:layout_marginStart="18dp"
         android:layout_marginTop="46dp"
@@ -85,6 +101,7 @@
         android:paddingVertical="8dp"
 
         />
+
     <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
         android:layout_width="match_parent"
         android:layout_height="320dp"
@@ -93,5 +110,15 @@
         android:layout_marginHorizontal="16dp"
         android:id="@+id/viewPager"
         app:layout_constraintTop_toBottomOf="@id/dailyRecipes"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logo"
+        app:lottie_rawRes="@raw/dissconnecton_b"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,25 +17,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.hungerhub.Authentication.AlertDialouge;
-import com.example.hungerhub.Authentication.FireBaseAuthHandler;
-import com.example.hungerhub.Authentication.GoogleAuthHelper;
+import com.example.hungerhub.Authentication.GoogleAuthService;
 import com.example.hungerhub.Authentication.login.presenter.LoginPresenter;
 import com.example.hungerhub.R;
-import com.example.hungerhub.SharedPref;
-import com.example.hungerhub.Authentication.interfaces.OnResponseHandler;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
+
 public class LoginFragment extends Fragment implements Loginiview{
     EditText email;
     EditText pass;
@@ -44,15 +34,12 @@ public class LoginFragment extends Fragment implements Loginiview{
     TextView goToSignUpText;
     TextView emailError;
     TextView passError;
-   Button guestBtn;
+    Button guestBtn;
     ImageView google;
     private static final int RC_SIGN_IN = 100;
-    FirebaseAuth firebaseAuth;
-    private GoogleSignInClient googleSignInClient;
-    FireBaseAuthHandler fireBaseAuthHandler;
-    SharedPref sharedPref;
     LoginPresenter presenter;
-    GoogleAuthHelper googleAuthHelper;
+    GoogleAuthService googleAuthService;
+    String webClientId;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -60,20 +47,8 @@ public class LoginFragment extends Fragment implements Loginiview{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        googleAuthHelper = new GoogleAuthHelper(getActivity());
+         googleAuthService= new GoogleAuthService(getActivity());
         presenter= new LoginPresenter(this,getActivity());
-        fireBaseAuthHandler= FireBaseAuthHandler.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
-        sharedPref= SharedPref.getInstance(getActivity());
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)) // Get Web Client ID from Firebase
-                .requestEmail()
-                .build();
-        googleSignInClient = GoogleSignIn.getClient(FirebaseApp.getInstance().getApplicationContext(), gso);
-        if(sharedPref.isLogged()){
-            Intent intent = new Intent(getActivity(), MainTabsActivity.class);
-            startActivity(intent);
-
-        }
 
 
     }
@@ -94,7 +69,7 @@ public class LoginFragment extends Fragment implements Loginiview{
         emailError=view.findViewById(R.id.emailError);
         passError=view.findViewById(R.id.passError);
         google = view.findViewById(R.id.google);
-        google.setOnClickListener(v -> signInWithGoogle());
+        google.setOnClickListener(v ->googleAuthService.signIn(this));
         guestBtn.setOnClickListener(v->{
             presenter.ensureGuestMode();
             Intent i = new Intent(getActivity(),MainTabsActivity.class);
@@ -111,12 +86,6 @@ public class LoginFragment extends Fragment implements Loginiview{
     }
 
 
-
-    private void signInWithGoogle() {
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -126,31 +95,14 @@ public class LoginFragment extends Fragment implements Loginiview{
             try {
                 // Google Sign-In successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
+                presenter.firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 Toast.makeText(getActivity(), "Google Sign-In failed!", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(getActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        // Sign-in successful
-                        sharedPref.setLogged(true);
 
-                        Intent intent = new Intent(getActivity(), MainTabsActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(getActivity(),"logged in", Toast.LENGTH_LONG).show();
-
-                    } else {
-                        // Sign-in failed
-                        Toast.makeText(getActivity(), "Authentication Failed!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
     public  void hideErrors(){
         emailError.setVisibility(INVISIBLE);
         passError.setVisibility(INVISIBLE);

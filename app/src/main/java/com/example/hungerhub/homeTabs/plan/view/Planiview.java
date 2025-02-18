@@ -10,4 +10,5 @@ public interface Planiview {
     public void setMealList(List<PlanMealModel> meals);
     public void deleteMeal(PlanMealModel meal);
     public void SetMessage(String msg);
+    public  void onMealClicked(MealModel mealModel);
 }

@@ -1,5 +1,4 @@
 package com.example.hungerhub;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 
