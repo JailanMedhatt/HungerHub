@@ -1,9 +1,8 @@
 package com.example.hungerhub.homeTabs.search.FilteredMeals;
-
 import android.text.TextUtils;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.search.FilterObj;
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import java.util.List;
 import java.util.stream.Collectors;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -17,7 +16,6 @@ public class FilteredMealsPresenter {
         this.iview = iview;
     }
 
-
     public  void getAllMealsByCat(String cat){
         repo.getMealsByCat(cat).subscribeOn(Schedulers.io()).map(
                 i->i.meals
@@ -25,8 +23,7 @@ public class FilteredMealsPresenter {
                 list->{
                     mealsBackUp=list;
                     iview.setMealsList(list);
-                }
-        );
+                });
     }
     public  void  getAllMealsByIng(String ing){
         repo.getMealsByIng(ing).subscribeOn(Schedulers.io()).map(
@@ -46,8 +43,7 @@ public class FilteredMealsPresenter {
                     mealsBackUp=list;
                     iview.setMealsList(list);
                 }
-        );
-    }
+        );}
 
     public void getAllMeals(FilterObj filterObj){
         if(filterObj.isFilterByCat()){
@@ -60,8 +56,6 @@ public class FilteredMealsPresenter {
 
         }
     }
-
-
     public void filterMeals(String text){
         if(text==null|| TextUtils.isEmpty(text)){
             iview.setMealsList(mealsBackUp);

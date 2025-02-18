@@ -8,14 +8,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.helper.widget.Carousel;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,13 +24,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hungerhub.R;
-import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.db.LocalDataSource;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.model.MealModel;
 
 import com.example.hungerhub.homeTabs.home.presenter.HomePresenter;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview;
 
 import java.util.List;

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.example.hungerhub.NetworkConnectivity.NetworkResponse;
 import com.example.hungerhub.NetworkConnectivity.NetworkUtils;
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaModel;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryModel;
 import com.example.hungerhub.homeTabs.search.model.ingredientModels.IngredientModel;

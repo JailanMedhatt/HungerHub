@@ -18,11 +18,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.hungerhub.R;
-import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.db.LocalDataSource;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.search.FilterObj;
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import com.example.hungerhub.homeTabs.search.FilteredMeals.FilteredMealsPresenter;
 import com.example.hungerhub.homeTabs.search.FilteredMeals.FilterMealsiview;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;

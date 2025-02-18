@@ -6,7 +6,7 @@ import android.content.Context;
 import com.example.hungerhub.NetworkConnectivity.NetworkResponse;
 import com.example.hungerhub.NetworkConnectivity.NetworkUtils;
 import com.example.hungerhub.homeTabs.home.view.IhomeView;
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import com.example.hungerhub.homeTabs.model.MealModel;
 
 import java.util.ArrayList;

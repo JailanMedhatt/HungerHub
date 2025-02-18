@@ -1,15 +1,13 @@
 package com.example.hungerhub.homeTabs.network;
-
 import com.example.hungerhub.homeTabs.model.MealResponse;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaResponse;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryResponse;
 import com.example.hungerhub.homeTabs.search.model.ingredientModels.IngredientResponse;
-
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface SearchRetrofitHandler {
+public interface RetrofitHandler {
     @GET("categories.php")
    public Single<CategoryResponse> getCategories();
     @GET("list.php?i=list")

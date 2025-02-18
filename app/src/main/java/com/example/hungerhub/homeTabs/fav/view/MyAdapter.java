@@ -1,6 +1,4 @@
-package com.example.hungerhub.homeTabs.commonView;
-
-
+package com.example.hungerhub.homeTabs.fav.view;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hungerhub.R;
-import com.example.hungerhub.homeTabs.fav.view.FavIview;
 import com.example.hungerhub.homeTabs.model.MealModel;
-
 import java.util.List;
-
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     Context context;
     List<MealModel> meals;

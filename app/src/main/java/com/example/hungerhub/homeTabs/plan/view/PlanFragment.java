@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.hungerhub.R;
-import com.example.hungerhub.Repo;
-import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.Repo;
+import com.example.hungerhub.homeTabs.db.LocalDataSource;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;

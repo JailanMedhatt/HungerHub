@@ -12,11 +12,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RemoteDataSource {
     Retrofit retrofit;
     static RemoteDataSource instance;
-    SearchRetrofitHandler retrofitHandler;
+    RetrofitHandler retrofitHandler;
     String baseUrl="https://www.themealdb.com/api/json/v1/1/";
   private RemoteDataSource(){
         retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava3CallAdapterFactory.create()).baseUrl(baseUrl).build();
-        retrofitHandler= retrofit.create(SearchRetrofitHandler.class);
+        retrofitHandler= retrofit.create(RetrofitHandler.class);
     }
     public static RemoteDataSource getInstance(){
       if(instance==null){
