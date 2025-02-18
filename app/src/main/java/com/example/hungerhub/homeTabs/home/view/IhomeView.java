@@ -10,4 +10,6 @@ public interface IhomeView {
     public  void onFailure(String msg);
     public void  SetMeals(List<MealModel> meals);
     public void onMealClicked(MealModel meal);
+    public  void  onNetworkDisconnected();
+    public void onNetworkConncted();
 }

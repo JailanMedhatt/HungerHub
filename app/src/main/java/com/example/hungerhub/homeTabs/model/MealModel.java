@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-@Entity(tableName = "meal_table",primaryKeys = {"uId","idMeal"})
+@Entity(tableName = "meal_table", primaryKeys = {"uId","idMeal"} )
 public class MealModel implements Serializable {
     @NonNull
     public String uId;

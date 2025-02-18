@@ -1,7 +1,12 @@
 package com.example.hungerhub.Authentication;
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.hungerhub.Authentication.login.view.Loginiview;
 import com.example.hungerhub.R;
@@ -18,13 +23,13 @@ import com.google.android.gms.tasks.Task;
 
 public class GoogleAuthService {
 
-  public    static final int RC_SIGN_IN = 9001;
+  public    static final int RC_SIGN_IN = 100;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    private Activity activity;
+    private Context activity;
     Loginiview loginiview;
 
-    public GoogleAuthService(Activity activity,Loginiview loginiview) {
+    public GoogleAuthService(Context activity) {
         this.activity = activity;
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -32,51 +37,14 @@ public class GoogleAuthService {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(activity, gso);
-        this.loginiview=loginiview;
+
     }
 
     // Start Google Sign-In intent
-    public void signIn() {
+    public void signIn(Fragment fragment) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        activity.startActivityForResult(signInIntent, RC_SIGN_IN);
+        fragment.startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    // Handle sign-in result (with Task<GoogleSignInAccount>)
-    public void handleSignInResult(Intent data, SignInResultCallback callback) {
-        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-        task.addOnCompleteListener(activity, new OnCompleteListener<GoogleSignInAccount>() {
-            @Override
-            public void onComplete(Task<GoogleSignInAccount> task) {
-                if (task.isSuccessful()) {
-                    // Google Sign-In was successful, authenticate with Firebase
-                    GoogleSignInAccount account = task.getResult();
-                    if (account != null) {
-                        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                        mAuth.signInWithCredential(credential).addOnCompleteListener(activity, signInTask -> {
-                            if (signInTask.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                loginiview.onSuccessResponse();
-                            } else {
-                                callback.onSignInFailed(signInTask.getException());
-                            }
-                        });
-                    }
-                } else {
-                    // Google Sign-In failed
-                    loginiview.onFailureResponse(task.getException().toString());
-                }
-            }
-        });
-    }
 
-    // Sign out the user
-    public void signOut() {
-        mAuth.signOut();
-        mGoogleSignInClient.signOut();
-    }
-
-    public interface SignInResultCallback {
-        void onSignInSuccess(FirebaseUser user);
-        void onSignInFailed(Exception exception);
-    }
 }

@@ -1,11 +1,15 @@
 package com.example.hungerhub.homeTabs.home.view;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.helper.widget.Carousel;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,6 +49,8 @@ public class HomeFragment extends Fragment implements IhomeView {
      MyCarouselAdapter adapter;
      LinearLayoutManager linearLayoutManager;
      CarouselRecyclerview recyclerView;
+     Group mainGroup ;
+     Group netWorkFailedGroup;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -53,10 +59,9 @@ public class HomeFragment extends Fragment implements IhomeView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         homePresenter= new HomePresenter(new Repo(RemoteDataSource.getInstance(),
-                LocalDataSource.getInstance(getActivity()),true),this);
-//        SharedPref sharedPref= SharedPref.getInstance(getActivity());
-//        sharedPref.setDataLoaded(false);
+                LocalDataSource.getInstance(getActivity()),true),this,getContext());
     }
 
     @Override
@@ -69,18 +74,20 @@ public class HomeFragment extends Fragment implements IhomeView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       recyclerView = view.findViewById(R.id.viewPager);
-       linearLayoutManager= new LinearLayoutManager(getActivity());
+
+        mainGroup= view.findViewById(R.id.group1);
+        netWorkFailedGroup=view.findViewById(R.id.group2);
+        recyclerView = view.findViewById(R.id.viewPager);
+        linearLayoutManager= new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-       recyclerView.setLayoutManager(linearLayoutManager);
-   recyclerView.setAlpha(true);
-   recyclerView.setInfinite(false);
-        homePresenter.getDailyMeal();
-        homePresenter.getAllRandomMeals();
-       mealPhoto= view.findViewById(R.id.mealPhoto);
-       title= view.findViewById(R.id.title);
-       card= view.findViewById(R.id.card);
-       card.setOnClickListener(v->{
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAlpha(true);
+        recyclerView.setInfinite(false);
+        homePresenter.loadData();
+        mealPhoto= view.findViewById(R.id.mealPhoto);
+        title= view.findViewById(R.id.title);
+        card= view.findViewById(R.id.card);
+        card.setOnClickListener(v->{
            Navigation.findNavController(view).navigate(HomeFragmentDirections.actionHomeFragmentToDetailedMealFragment(mealModel));
        });
     }
@@ -88,6 +95,7 @@ public class HomeFragment extends Fragment implements IhomeView {
 
     @Override
     public void onSuccess(MealModel meal) {
+
         mealModel=meal;
         Toast.makeText(getActivity(),meal.getTitle(),Toast.LENGTH_LONG);
         Glide.with(getActivity()).
@@ -100,6 +108,7 @@ public class HomeFragment extends Fragment implements IhomeView {
   //https://www.themealdb.com/images/ingredients/Lime.png
     @Override
     public void onFailure(String msg) {
+
         Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG);
     }
 
@@ -113,5 +122,17 @@ public class HomeFragment extends Fragment implements IhomeView {
     @Override
     public void onMealClicked(MealModel meal) {
         Navigation.findNavController(getView()).navigate(HomeFragmentDirections.actionHomeFragmentToDetailedMealFragment(meal));
+    }
+
+    @Override
+    public void onNetworkDisconnected() {
+        mainGroup.setVisibility(INVISIBLE);
+        netWorkFailedGroup.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void onNetworkConncted() {
+        mainGroup.setVisibility(VISIBLE);
+        netWorkFailedGroup.setVisibility(INVISIBLE);
     }
 }

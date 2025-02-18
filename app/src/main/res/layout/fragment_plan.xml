@@ -12,7 +12,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/rv"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="42dp"
         />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
@@ -23,5 +23,13 @@
         android:id="@+id/mealRv"
         android:layout_marginTop="32dp"
         />
-
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/logo"
+        android:layout_marginTop="64dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/empry" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,8 @@
 package com.example.hungerhub.homeTabs.detailedItem.presenter;
 import android.content.Context;
+import android.util.Log;
+
+import com.example.hungerhub.NetworkConnectivity.NetworkUtils;
 import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.detailedItem.view.DetailedMeal_iView;
@@ -17,19 +20,27 @@ public class ItemDetailsPresenter {
     SharedPref sharedPref;
     DetailedMeal_iView iview;
     Repo repo;
+    Context context;
     public ItemDetailsPresenter(DetailedMeal_iView messageReciever, Repo repo,Context context){
-
+     this.context=context;
         this.iview =messageReciever;
         this.repo = repo;
         sharedPref= SharedPref.getInstance(context);
 
 
     }
-    public void getItemDetails(String id){
-        repo.getMealById(id).subscribeOn(Schedulers.io()).map(i->i.meals.get(0))
+    public void getItemDetails(MealModel mealModel){
+        if(NetworkUtils.isInternetAvailable(context)){
+
+        repo.getMealById(mealModel.getIdMeal()).subscribeOn(Schedulers.io()).map(i->i.meals.get(0))
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(
                         i->iview.setMeal(i)
                 );
+        }
+        else {
+            Log.i("tag", "getItemDetails: "+mealModel.getStrCategory());
+            iview.setMeal(mealModel);
+        }
     }
  public List<String> getIngredientsList(MealModel mealModel){
     List <String> ingredientsList= Stream.of(mealModel.getStrIngredient1(),mealModel.getStrIngredient2(),
@@ -43,13 +54,15 @@ public class ItemDetailsPresenter {
 }
 public  void  addMealToFav(MealModel mealModel, Context context){
         if(sharedPref.getUSERID()!=null){
-
+            if(NetworkUtils.isInternetAvailable(context)){
         MealModel meal=mealModel;
         sharedPref=SharedPref.getInstance(context);
         meal.setuId(sharedPref.getUSERID());
     repo.insertMealTofav(mealModel).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(()-> iview.onMessageReceived("Meal is added to fav"),
                     e-> iview.onMessageReceived(e.getMessage()));
+            }
+            else {iview.onMessageReceived("You must reconnect to the internet");}
         }
         else {
 
@@ -60,6 +73,7 @@ public  void  addMealToFav(MealModel mealModel, Context context){
 }
     public  void  addMealToPlan(PlanMealModel mealModel, Context context){
         if(sharedPref.getUSERID()!=null){
+             if(NetworkUtils.isInternetAvailable(context)){
         PlanMealModel meal=mealModel;
 
         sharedPref=SharedPref.getInstance(context);
@@ -68,6 +82,8 @@ public  void  addMealToFav(MealModel mealModel, Context context){
         repo.insertMealToPlan(meal).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(()-> iview.onMessageReceived("Meal is added to plan"),
                         e-> iview.onMessageReceived(e.getMessage()));}
+             else {iview.onMessageReceived("You must reconnect to the internet");}
+        }
         else {
             iview.onMessageReceived("This feature is not available in guest mode");
         }
@@ -83,8 +99,9 @@ public  void  addMealToFav(MealModel mealModel, Context context){
         return false;
    }
 
-
-
+    public boolean isNetworkConnected(){
+        return NetworkUtils.isInternetAvailable(context);
+    }
 
 
     public String getVideoId(String videoUrl){

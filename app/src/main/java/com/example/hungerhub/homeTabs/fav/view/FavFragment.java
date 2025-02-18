@@ -1,5 +1,8 @@
 package com.example.hungerhub.homeTabs.fav.view;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.hungerhub.R;
 import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.LocalDataSource;
@@ -33,9 +37,9 @@ public class FavFragment extends Fragment implements CardIview,FavIview{
     LinearLayoutManager linearLayoutManager;
     MyAdapter adapter;
     List<MealModel>meals= new ArrayList<>();
-
     Presenter presenter;
     View view;
+    LottieAnimationView lottieAnimationView;
 
     public FavFragment() {
         // Required empty public constructor
@@ -61,6 +65,7 @@ public class FavFragment extends Fragment implements CardIview,FavIview{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view=view;
+        lottieAnimationView=view.findViewById(R.id.logo);
         presenter.getAllFavProducts();
         recyclerView = view.findViewById(R.id.rv);
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -77,8 +82,14 @@ public class FavFragment extends Fragment implements CardIview,FavIview{
 
     @Override
     public void setfavMeals(List<MealModel> meals) {
-        adapter.setMeals(meals);
-        adapter.notifyDataSetChanged();
+        if(meals.isEmpty()){
+            lottieAnimationView.setVisibility(VISIBLE);
+            recyclerView.setVisibility(INVISIBLE);
+        }else{
+            lottieAnimationView.setVisibility(INVISIBLE);
+            recyclerView.setVisibility(VISIBLE);
+            adapter.setMeals(meals);
+            adapter.notifyDataSetChanged();}
     }
 
     @Override

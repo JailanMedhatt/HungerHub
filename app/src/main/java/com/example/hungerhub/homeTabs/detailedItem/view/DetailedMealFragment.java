@@ -76,12 +76,13 @@ public class DetailedMealFragment extends Fragment implements DetailedMeal_iView
         area= view.findViewById(R.id.area);
         addToPlanBtn= view.findViewById(R.id.addToPlan);
         MealModel mealModel = DetailedMealFragmentArgs.fromBundle(getArguments()).getMeal();
-        presenter.getItemDetails(mealModel.getIdMeal());
+
         category=view.findViewById(R.id.category);
         recyclerView = view.findViewById(R.id.rv);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
+        presenter.getItemDetails(mealModel);
         addToPlanBtn.setOnClickListener(v->showDatePicker());
 
     }
@@ -92,7 +93,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMeal_iView
             webView.loadData(videoId,"text/html","utf-8");
         }
         private  void showDatePicker(){
-        if(!presenter.isGuestMood()){
+        if(!presenter.isGuestMood()&&presenter.isNetworkConnected()){
             Calendar calendar = Calendar.getInstance();
 
             // Get the start of the current week (Monday)
@@ -115,7 +116,6 @@ public class DetailedMealFragment extends Fragment implements DetailedMeal_iView
                     (view, selectedYear, selectedMonth, selectedDay) -> {
                         Calendar selectedCalendar = Calendar.getInstance();
                         selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
-
                         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM", Locale.getDefault());
                         String selectedDate = sdf.format(selectedCalendar.getTime());
 
@@ -128,12 +128,10 @@ public class DetailedMealFragment extends Fragment implements DetailedMeal_iView
             // Set min and max dates (restrict to the current week)
             datePickerDialog.getDatePicker().setMinDate(startOfWeek);
             datePickerDialog.getDatePicker().setMaxDate(endOfWeek);
-
             datePickerDialog.show();}
         else {
             onMessageReceived("This feature is not available in guest mode");
         }
-
         }
     @Override
     public void onMessageReceived(String msg) {

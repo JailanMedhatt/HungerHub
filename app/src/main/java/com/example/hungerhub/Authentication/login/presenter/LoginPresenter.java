@@ -15,6 +15,10 @@ import com.example.hungerhub.homeTabs.LocalDataSource;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -22,10 +26,12 @@ public class LoginPresenter implements OnResponseHandler {
     SharedPref sharedPref;
     Loginiview loginiview;
     FireBaseAuthHandler fireBaseAuthHandler;
+    FirebaseAuth firebaseAuth;
     Repo repo;
     public  LoginPresenter(Loginiview loginiview, Context context){
         this.loginiview=loginiview;
         sharedPref= SharedPref.getInstance(context);
+        firebaseAuth = FirebaseAuth.getInstance();
         fireBaseAuthHandler= FireBaseAuthHandler.getInstance();
         repo= new Repo(RemoteDataSource.getInstance(), LocalDataSource.getInstance(context),true);
     }
@@ -65,7 +71,8 @@ public class LoginPresenter implements OnResponseHandler {
                 list->{
                     for(MealModel meal: list){
 
-                        repo.insertMealToLocalFav(meal).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();
+                        repo.insertMealToLocalFav(meal).subscribeOn(Schedulers.io()).
+                                observeOn(AndroidSchedulers.mainThread()).subscribe();
                     }
                 }
 
@@ -74,11 +81,26 @@ public class LoginPresenter implements OnResponseHandler {
                 list->{
                     for(PlanMealModel meal: list){
 
-                        repo.insertMealToPlanLocal(meal).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();
+                        repo.insertMealToPlanLocal(meal).subscribeOn(Schedulers.io()).
+                                observeOn(AndroidSchedulers.mainThread()).subscribe();
                     }
                 }
         );
 
+    }
+    public void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener( task -> {
+                    if (task.isSuccessful()) {
+                        // Sign-in successful
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                       onSuccessResponse(user.getUid());
+
+                    } else {
+                        onFailureResponse("Authentication Failed!");
+                    }
+                });
     }
     public void ensureGuestMode(){
         sharedPref.setLogged(false);

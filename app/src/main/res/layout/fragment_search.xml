@@ -6,11 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".homeTabs.search.view.SearchFragment">
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainGp"
+        app:constraint_referenced_ids="searchEditText,filters,chipGroup,rv"
+        />
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Gp2"
+        app:constraint_referenced_ids="logo"
+        />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="42dp"
         android:drawableStart="@drawable/search24"
         android:drawableTint="@color/primary"
         android:drawablePadding="8dp"
@@ -81,4 +93,13 @@
         android:id="@+id/rv"
         />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/dissconnecton_b" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hungerhub.Authentication.AlertDialouge;
+import com.example.hungerhub.Authentication.GoogleAuthService;
 import com.example.hungerhub.Authentication.register.presenter.RegisterPresenter;
 import com.example.hungerhub.R;
 import com.example.hungerhub.SharedPref;
@@ -45,10 +46,8 @@ public class RegisterFragment extends Fragment implements Registeriview {
     TextView emailError;
     TextView passErrorMatch1;
     TextView passErrorMatch2;
-   FirebaseAuth firebaseAuth;
     private static final int RC_SIGN_IN = 100;
-    private GoogleSignInClient googleSignInClient;
-    SharedPref sharedPref;
+    GoogleAuthService googleAuthService;
 
     RegisterPresenter registerPresenter;
     public RegisterFragment() {
@@ -58,17 +57,10 @@ public class RegisterFragment extends Fragment implements Registeriview {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        googleAuthService= new GoogleAuthService(getActivity());
         registerPresenter=new RegisterPresenter(this,getActivity());
-        firebaseAuth = FirebaseAuth.getInstance();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)) // Get Web Client ID from Firebase
-                .requestEmail()
-                .build();
 
-        googleSignInClient = GoogleSignIn.getClient(FirebaseApp.getInstance().getApplicationContext(), gso);
-        sharedPref=SharedPref.getInstance(getActivity());
-//        googleSignInClient.signOut();
-//        firebaseAuth.signOut();
+
 
     }
 
@@ -112,8 +104,7 @@ public class RegisterFragment extends Fragment implements Registeriview {
             Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment);
         });
         google.setOnClickListener(v->{
-            //countinueWithGoogle();
-            signInWithGoogle();
+            googleAuthService.signIn(this);
         });
     }
 
@@ -126,10 +117,7 @@ public class RegisterFragment extends Fragment implements Registeriview {
     }
 
 
-private void signInWithGoogle() {
-    Intent signInIntent = googleSignInClient.getSignInIntent();
-    startActivityForResult(signInIntent, RC_SIGN_IN);
-}
+
 
 @Override
 public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -140,32 +128,14 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             // Google Sign-In successful, authenticate with Firebase
             GoogleSignInAccount account = task.getResult(ApiException.class);
-            firebaseAuthWithGoogle(account.getIdToken());
+            registerPresenter.firebaseAuthWithGoogle(account.getIdToken());
         } catch (ApiException e) {
             Toast.makeText(getActivity(), "Google Sign-In failed!", Toast.LENGTH_SHORT).show();
         }
     }
 }
 
-private void firebaseAuthWithGoogle(String idToken) {
-        if(idToken==null){
-            Toast.makeText(getActivity(), "You didn't choose an email!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-    AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-    firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener(getActivity(), task -> {
-                if (task.isSuccessful()) {
-                    // Sign-in successful
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    sharedPref.setUSERID(user.getUid());
-                   onSuccessResponse();
-                } else {
-                    // Sign-in failed
-                    onFailureResponse("Authentication Failed!");
-                }
-            });
-}
+
 
     @Override
     public void onFailureResponse(String message) {
@@ -176,7 +146,6 @@ private void firebaseAuthWithGoogle(String idToken) {
 
     @Override
     public void onSuccessResponse() {
-        sharedPref.setLogged(true);
 
         Intent intent = new Intent(getActivity(), MainTabsActivity.class);
         startActivity(intent);

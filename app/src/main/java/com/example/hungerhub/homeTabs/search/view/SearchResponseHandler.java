@@ -13,4 +13,6 @@ public interface SearchResponseHandler {
     public void onCategoryClicked(String cat);
     public void onIngredientClicked(String ing);
     public void onAreaClicked(String ing);
+    public  void  onNetworkDisconnected();
+    public void onNetworkConncted();
 }

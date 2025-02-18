@@ -1,5 +1,8 @@
 package com.example.hungerhub.homeTabs.plan.view;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.hungerhub.R;
 import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.LocalDataSource;
@@ -33,6 +37,8 @@ public class PlanFragment extends Fragment implements Planiview{
     PlanPresenter presenter;
     PlanAdapter adapter;
     RecyclerView mealsRv;
+    LottieAnimationView lottieAnimationView;
+
 
     public PlanFragment() {
         // Required empty public constructor
@@ -57,6 +63,7 @@ public class PlanFragment extends Fragment implements Planiview{
         super.onViewCreated(view, savedInstanceState);
         List<String> week= presenter.getCurrentWeek();
         linearLayoutManager= new LinearLayoutManager(getActivity());
+        lottieAnimationView=view.findViewById(R.id.logo);
         linearLayoutManager2=new LinearLayoutManager(getActivity());
         linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -76,9 +83,18 @@ public class PlanFragment extends Fragment implements Planiview{
 
     @Override
     public void setMealList(List<PlanMealModel> meals) {
-        adapter= new PlanAdapter(getActivity(),meals,this);
-        mealsRv.setAdapter(adapter);
+        if(meals.isEmpty()){
+            lottieAnimationView.setVisibility(VISIBLE);
+            mealsRv.setVisibility(INVISIBLE);
 
+
+        }
+        else {
+            lottieAnimationView.setVisibility(INVISIBLE);
+            mealsRv.setVisibility(VISIBLE);
+            adapter = new PlanAdapter(getActivity(), meals, this);
+            mealsRv.setAdapter(adapter);
+        }
     }
 
     @Override
