@@ -39,7 +39,7 @@ public class LoginFragment extends Fragment implements Loginiview{
     private static final int RC_SIGN_IN = 100;
     LoginPresenter presenter;
     GoogleAuthService googleAuthService;
-    String webClientId;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -49,6 +49,7 @@ public class LoginFragment extends Fragment implements Loginiview{
 //        googleAuthHelper = new GoogleAuthHelper(getActivity());
          googleAuthService= new GoogleAuthService(getActivity());
         presenter= new LoginPresenter(this,getActivity());
+
 
 
     }
@@ -62,6 +63,7 @@ public class LoginFragment extends Fragment implements Loginiview{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((MainTabsActivity)getActivity()).showNavigationBar(false);
         email = view.findViewById(R.id.email);
         pass = view.findViewById(R.id.pass);
         guestBtn= view.findViewById(R.id.guestButton);
@@ -72,8 +74,7 @@ public class LoginFragment extends Fragment implements Loginiview{
         google.setOnClickListener(v ->googleAuthService.signIn(this));
         guestBtn.setOnClickListener(v->{
             presenter.ensureGuestMode();
-            Intent i = new Intent(getActivity(),MainTabsActivity.class);
-            startActivity(i);
+            Navigation.findNavController(getView()).navigate(R.id.action_loginFragment2_to_homeFragment);
         });
         loginBtn.setOnClickListener(v -> {
             hideErrors();
@@ -81,7 +82,7 @@ public class LoginFragment extends Fragment implements Loginiview{
         });
         goToSignUpText = view.findViewById(R.id.goToSignUp);
         goToSignUpText.setOnClickListener(v -> {
-            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment);
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment2_to_registerFragment2);
         });
     }
 
@@ -115,8 +116,7 @@ public class LoginFragment extends Fragment implements Loginiview{
     }
     @Override
     public void onSuccessResponse() {
-     Intent intent = new Intent(getActivity(), MainTabsActivity.class);
-     startActivity(intent);
+    Navigation.findNavController(getView()).navigate(R.id.action_loginFragment2_to_homeFragment);
      Toast.makeText(getActivity(),"logged in", Toast.LENGTH_LONG).show();
     }
 
@@ -131,4 +131,6 @@ public class LoginFragment extends Fragment implements Loginiview{
         passError.setVisibility(VISIBLE);
 
     }
+
+
 }
