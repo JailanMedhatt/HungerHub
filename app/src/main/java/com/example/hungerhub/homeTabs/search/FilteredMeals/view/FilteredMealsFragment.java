@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.hungerhub.R;
 import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.search.FilterObj;
 import com.example.hungerhub.Repo;
@@ -106,5 +107,10 @@ public class FilteredMealsFragment extends Fragment implements FilterMealsiview 
         adapter= new MealsAdapter(getActivity(),meals,this);
         rc.setAdapter(adapter);
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainTabsActivity)getActivity()).showNavigationBar(true);
     }
 }

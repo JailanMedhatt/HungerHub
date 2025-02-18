@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.hungerhub.R;
 import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;
@@ -151,6 +152,11 @@ public class DetailedMealFragment extends Fragment implements DetailedMeal_iView
         addToFavBtn.setOnClickListener(v->{
             presenter.addMealToFav(meal,getActivity());
         });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainTabsActivity)getActivity()).showNavigationBar(true);
     }
 }
 

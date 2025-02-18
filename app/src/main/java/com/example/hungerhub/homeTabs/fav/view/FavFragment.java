@@ -20,6 +20,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.hungerhub.R;
 import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.commonView.CardIview;
 import com.example.hungerhub.homeTabs.commonView.MyAdapter;
 import com.example.hungerhub.homeTabs.model.MealModel;
@@ -100,5 +101,10 @@ public class FavFragment extends Fragment implements CardIview,FavIview{
     @Override
     public void SetMessage(String msg) {
         Snackbar.make(view,msg,Snackbar.LENGTH_LONG).show();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainTabsActivity)getActivity()).showNavigationBar(true);
     }
 }

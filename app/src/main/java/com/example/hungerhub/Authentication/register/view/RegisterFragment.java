@@ -60,8 +60,6 @@ public class RegisterFragment extends Fragment implements Registeriview {
         googleAuthService= new GoogleAuthService(getActivity());
         registerPresenter=new RegisterPresenter(this,getActivity());
 
-
-
     }
 
     @Override
@@ -75,6 +73,7 @@ public class RegisterFragment extends Fragment implements Registeriview {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+        ((MainTabsActivity)getActivity()).showNavigationBar(false);
 
         name= view.findViewById(R.id.name);
         email= view.findViewById(R.id.email);
@@ -101,7 +100,7 @@ public class RegisterFragment extends Fragment implements Registeriview {
            );
         });
         goToLoginText.setOnClickListener(v->{
-            Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment);
+            Navigation.findNavController(view).navigate(R.id.action_registerFragment2_to_loginFragment2);
         });
         google.setOnClickListener(v->{
             googleAuthService.signIn(this);
@@ -147,8 +146,7 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
     @Override
     public void onSuccessResponse() {
 
-        Intent intent = new Intent(getActivity(), MainTabsActivity.class);
-        startActivity(intent);
+        Navigation.findNavController(getView()).navigate(R.id.action_registerFragment2_to_homeFragment);
         Toast.makeText(getActivity(),"logged in", Toast.LENGTH_LONG).show();
     }
 
@@ -183,5 +181,10 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
         passErrorMatch2.setVisibility(View.VISIBLE);
         nameEroor.setText("Confirm Password Required");
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainTabsActivity)getActivity()).showNavigationBar(false);
     }
 }

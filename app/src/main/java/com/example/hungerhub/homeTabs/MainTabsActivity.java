@@ -1,4 +1,7 @@
 package com.example.hungerhub.homeTabs;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.example.hungerhub.Authentication.MainActivity;
@@ -37,7 +41,7 @@ public class MainTabsActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if(item.getItemId()==R.id.logOut){
+            if(item.getItemId()==R.id.loginFragment2){
                sharedPref.setLogged(false);
                sharedPref.setUSERID(null);
                 GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -46,10 +50,11 @@ public class MainTabsActivity extends AppCompatActivity {
                         .build();
              GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(FirebaseApp.getInstance().getApplicationContext(), gso);
              googleSignInClient.signOut();
-                Intent i = new Intent(MainTabsActivity.this, MainActivity.class);
-                i.putExtra("frag","LoginFragment");
-                startActivity(i);
-                return true;
+
+//                Intent i = new Intent(MainTabsActivity.this, MainActivity.class);
+//                i.putExtra("frag","LoginFragment");
+//                startActivity(i);
+                return  NavigationUI.onNavDestinationSelected(item,navController);
             }
             if((item.getItemId()==R.id.favFragment||item.getItemId()==R.id.planFragment)&&sharedPref.getUSERID()==null){
                 Toast.makeText(MainTabsActivity.this,"This feature is not available in guest mode",Toast.LENGTH_LONG).show();
@@ -61,5 +66,13 @@ public class MainTabsActivity extends AppCompatActivity {
         }
     });
 
+    }
+    public void showNavigationBar(boolean shown){
+        if(shown){
+            bottomNavigationView.setVisibility(VISIBLE);
+        }
+        else{
+            bottomNavigationView.setVisibility(GONE);
+        }
     }
 }

@@ -21,6 +21,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.hungerhub.R;
 import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
@@ -111,5 +112,10 @@ public class PlanFragment extends Fragment implements Planiview{
     @Override
     public void onMealClicked(MealModel mealModel) {
         Navigation.findNavController(getView()).navigate(PlanFragmentDirections.actionPlanFragmentToDetailedMealFragment(mealModel));
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainTabsActivity)getActivity()).showNavigationBar(true);
     }
 }

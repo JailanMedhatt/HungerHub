@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hungerhub.R;
 import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.model.MealModel;
 
 import com.example.hungerhub.homeTabs.home.presenter.HomePresenter;
@@ -134,5 +135,10 @@ public class HomeFragment extends Fragment implements IhomeView {
     public void onNetworkConncted() {
         mainGroup.setVisibility(VISIBLE);
         netWorkFailedGroup.setVisibility(INVISIBLE);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainTabsActivity)getActivity()).showNavigationBar(true);
     }
 }

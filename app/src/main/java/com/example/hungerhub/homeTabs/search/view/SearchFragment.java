@@ -21,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import com.example.hungerhub.R;
 import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.search.FilterObj;
 import com.example.hungerhub.Repo;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaModel;
@@ -180,5 +181,10 @@ public class SearchFragment extends Fragment implements SearchResponseHandler{
     public void onAreaClicked(String ing) {
         FilterObj filterObj=new FilterObj(ing,false,false,true);
         Navigation.findNavController(view).navigate(SearchFragmentDirections.actionSearchFragmentToFilteredMealsFragment(filterObj));
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainTabsActivity)getActivity()).showNavigationBar(true);
     }
 }

@@ -35,6 +35,7 @@ public class SplashFragment extends Fragment {
      sharedPref=SharedPref.getInstance(getActivity());
 
 
+
     }
 
     @Override
@@ -46,6 +47,7 @@ public class SplashFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ((MainTabsActivity)getActivity()).showNavigationBar(false);
         super.onViewCreated(view, savedInstanceState);
 
         logo=view.findViewById(R.id.logo);
@@ -54,13 +56,15 @@ public class SplashFragment extends Fragment {
         lottieAnimationView.animate().translationY(-1600).setDuration(1000).setStartDelay(2000);
         new Handler().postDelayed(()->{
             if(sharedPref.isLogged()==true&&sharedPref.getUSERID()!=null){
-                Intent intent= new Intent(getActivity(), MainTabsActivity.class);
-                startActivity(intent);
+//                Intent intent= new Intent(getActivity(), MainTabsActivity.class);
+//                startActivity(intent);
+             Navigation.findNavController(view).navigate(R.id.action_splashFragment2_to_homeFragment);
             }
             else {
-                Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_loginFragment);
+                Navigation.findNavController(view).navigate(R.id.action_splashFragment2_to_loginFragment2);
             }
         },3000);
 
     }
+
 }
