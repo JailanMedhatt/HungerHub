@@ -6,7 +6,7 @@ import com.example.hungerhub.NetworkConnectivity.NetworkUtils;
 import com.example.hungerhub.SharedPref;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.detailedItem.view.DetailedMeal_iView;
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
 
 import java.util.List;

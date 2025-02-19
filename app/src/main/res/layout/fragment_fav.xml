@@ -12,7 +12,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/title"
-        android:text="Your Favourites"
+        android:text="@string/your_favourites"
 
         android:layout_marginStart="18dp"
         android:layout_marginTop="63dp"

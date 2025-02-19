@@ -1,8 +1,9 @@
-package com.example.hungerhub;
+package com.example.hungerhub.homeTabs;
 
-import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.db.LocalDataSource;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.model.MealResponse;
+import com.example.hungerhub.homeTabs.network.FirebaseHelper;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaResponse;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryResponse;

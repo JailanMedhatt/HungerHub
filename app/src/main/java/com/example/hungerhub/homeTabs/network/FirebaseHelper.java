@@ -1,4 +1,4 @@
-package com.example.hungerhub;
+package com.example.hungerhub.homeTabs.network;
 import android.util.Log;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;

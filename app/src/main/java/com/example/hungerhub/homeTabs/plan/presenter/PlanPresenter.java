@@ -1,7 +1,6 @@
 package com.example.hungerhub.homeTabs.plan.presenter;
 
-import com.example.hungerhub.Repo;
-import com.example.hungerhub.homeTabs.model.MealModel;
+import com.example.hungerhub.homeTabs.Repo;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
 import com.example.hungerhub.homeTabs.plan.view.Planiview;
 import java.text.SimpleDateFormat;

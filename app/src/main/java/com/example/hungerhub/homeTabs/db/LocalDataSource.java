@@ -1,11 +1,8 @@
-package com.example.hungerhub.homeTabs;
+package com.example.hungerhub.homeTabs.db;
 
 import android.content.Context;
 
 import com.example.hungerhub.SharedPref;
-import com.example.hungerhub.homeTabs.db.AppDb;
-import com.example.hungerhub.homeTabs.db.FavMealDao;
-import com.example.hungerhub.homeTabs.db.PlanMealDao;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
 

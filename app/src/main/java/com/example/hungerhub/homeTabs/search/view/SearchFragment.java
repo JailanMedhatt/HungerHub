@@ -20,10 +20,10 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import com.example.hungerhub.R;
-import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.db.LocalDataSource;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.search.FilterObj;
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import com.example.hungerhub.homeTabs.search.model.areaModels.AreaModel;
 import com.example.hungerhub.homeTabs.search.model.categoryModels.CategoryModel;
 import com.example.hungerhub.homeTabs.search.model.ingredientModels.IngredientModel;
@@ -35,7 +35,6 @@ import com.example.hungerhub.homeTabs.search.view.recyclyerAdapters.IngredientsR
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment implements SearchResponseHandler{

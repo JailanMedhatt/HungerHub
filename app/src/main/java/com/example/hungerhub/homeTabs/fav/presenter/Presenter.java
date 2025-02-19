@@ -1,9 +1,8 @@
 package com.example.hungerhub.homeTabs.fav.presenter;
 
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import com.example.hungerhub.homeTabs.fav.view.FavIview;
 import com.example.hungerhub.homeTabs.model.MealModel;
-import com.example.hungerhub.homeTabs.commonView.CardIview;
 
 import java.util.List;
 

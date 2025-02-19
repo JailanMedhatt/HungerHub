@@ -16,20 +16,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.hungerhub.R;
-import com.example.hungerhub.SharedPref;
-import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.db.LocalDataSource;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
 import com.example.hungerhub.homeTabs.model.MealModel;
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 import com.example.hungerhub.homeTabs.detailedItem.presenter.ItemDetailsPresenter;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;
-import com.google.android.material.datepicker.MaterialDatePicker;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class DetailedMealFragment extends Fragment implements DetailedMeal_iView {
     WebView webView;

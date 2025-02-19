@@ -1,38 +1,28 @@
 package com.example.hungerhub.homeTabs.fav.view;
-
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.hungerhub.R;
-import com.example.hungerhub.Repo;
-import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.Repo;
+import com.example.hungerhub.homeTabs.db.LocalDataSource;
 import com.example.hungerhub.homeTabs.MainTabsActivity;
-import com.example.hungerhub.homeTabs.commonView.CardIview;
-import com.example.hungerhub.homeTabs.commonView.MyAdapter;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.fav.presenter.Presenter;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.List;
-
-
-public class FavFragment extends Fragment implements CardIview,FavIview{
+public class FavFragment extends Fragment implements FavIview{
 
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -45,8 +35,6 @@ public class FavFragment extends Fragment implements CardIview,FavIview{
     public FavFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +80,6 @@ public class FavFragment extends Fragment implements CardIview,FavIview{
             adapter.setMeals(meals);
             adapter.notifyDataSetChanged();}
     }
-
     @Override
     public void onMealClicked(MealModel mealModel) {
         Navigation.findNavController(getView()).navigate(FavFragmentDirections.actionFavFragmentToDetailedMealFragment(mealModel));

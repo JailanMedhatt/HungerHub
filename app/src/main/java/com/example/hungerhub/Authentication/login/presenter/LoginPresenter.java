@@ -2,16 +2,14 @@ package com.example.hungerhub.Authentication.login.presenter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
-import android.widget.Button;
 
 import com.example.hungerhub.Authentication.FireBaseAuthHandler;
 import com.example.hungerhub.Authentication.interfaces.OnResponseHandler;
 import com.example.hungerhub.Authentication.login.view.Loginiview;
-import com.example.hungerhub.Repo;
+import com.example.hungerhub.homeTabs.Repo;
 import com.example.hungerhub.SharedPref;
-import com.example.hungerhub.homeTabs.LocalDataSource;
+import com.example.hungerhub.homeTabs.db.LocalDataSource;
 import com.example.hungerhub.homeTabs.model.MealModel;
 import com.example.hungerhub.homeTabs.network.RemoteDataSource;
 import com.example.hungerhub.homeTabs.plan.models.PlanMealModel;

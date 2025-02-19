@@ -129,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ingredientsTitle"
-            android:text="Ingredients"
+            android:text="@string/ingredients"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
