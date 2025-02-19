@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="35dp"
         android:backgroundTint="@color/primary"
         android:text="Countinue as a guest"
         android:id="@+id/guestButton"/>
@@ -20,7 +20,7 @@
         android:id="@+id/logo"
         android:layout_width="500dp"
         android:layout_height="420dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="84dp"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.617"

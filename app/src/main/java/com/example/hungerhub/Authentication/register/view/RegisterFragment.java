@@ -139,7 +139,7 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
     @Override
     public void onFailureResponse(String message) {
         AlertDialouge alertDialouge = new AlertDialouge(getActivity(),
-                "Warning",message,"ok",null);
+                "Warning",message,"ok",null,"cancel");
         alertDialouge.showAlert();
     }
 

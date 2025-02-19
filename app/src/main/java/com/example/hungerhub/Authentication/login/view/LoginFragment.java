@@ -111,7 +111,7 @@ public class LoginFragment extends Fragment implements Loginiview{
     @Override
     public void onFailureResponse(String message) {
     AlertDialouge alertDialouge= new AlertDialouge(getActivity(),
-        "warning",message,"ok",null);
+        "warning",message,"ok",null,"cancel");
     alertDialouge.showAlert();
     }
     @Override
